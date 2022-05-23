@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/23 13:05:28 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/23 14:44:49 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ typedef struct s_env
 	char	*wallTexture[4];
 	int		floorColor;
 	int		ceilColor;
+	t_slist	*raw_map;
+	int		deep;
 	t_map	*map;
 }	t_env;
 
