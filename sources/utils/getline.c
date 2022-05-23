@@ -9,43 +9,58 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/libft.h"
+#include "../../includes/cub3d.h"
 
 char	*save_buffer(char *buffer, int *i)
 {
-	int j;
+	int 	j;
+	char	*part1;
+	char	*part2;
+	char	*ret;
 
-	line = ft_calloc(512);
+	part1 = ft_calloc(512, sizeof(char));
 	j = 0;
-	while (j < 512)
+	while (j < 512 && buffer[*i])
 	{
-		line[j++] = buffer[(*i)++];
-		if (buffer[*i] == '\n')
-			return (line)
+		part1[j++] = buffer[*i];
+		if (buffer[(*i)++] == '\n')
+			return (part1);
 	}
-	return (ft_strjoin(line, save_buffer(buffer, i)));
+	part2 = save_buffer(buffer, i);
+	ret = ft_strjoin(part1, part2);
+	free(part1);
+	free(part2);
+	return (ret);
 }
 
 char *get_next_line(int fd)
 {
-	static char	*buffer[BUFFER_SIZE];
+	static char	buffer[BUFFER_SIZE + 1];
 	static int	i;
 	ssize_t		read_size;
 	char		*line;
+	char		*ret;
+
 
 	if (!*buffer)
-		read_size = read(fd, buffer, BUFFER_SIZE);
-	line = ft_calloc(1);
-	while (read_size)
 	{
-		line = ft_strjoin(line, save_buffer(buffer, i));
-		if (line[i] == '\n')
-			return (line);
 		read_size = read(fd, buffer, BUFFER_SIZE);
+		buffer[read_size] = 0;
+	}
+	ret = ft_calloc(1, sizeof(char));
+	while (buffer[i])
+	{
+		line = ft_strjoin(ret, save_buffer(buffer, &i));
+		free(ret);
+		ret = line;
+		if (buffer[i - 1] == '\n')
+			break ;
+		read_size = read(fd, buffer, BUFFER_SIZE);
+		buffer[read_size] = 0;
 		i = 0;
 	}
-	if (*line)
-		return (line);
-	free(line);
+	if (*ret)
+		return (ret);
+	free(ret);
 	return (NULL);
 }

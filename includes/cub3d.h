@@ -6,13 +6,14 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/22 14:10:24 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/23 10:44:57 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# define BUFFER_SIZE 4096
 # define UNIT 100
 # define WALL_HEIGHT 200
 # define PLAYER_HEIGHT 170
@@ -22,7 +23,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <errno.h>
-# include <sting.h>
+# include <string.h>
 # include <math.h>
 # include "../includes/libft.h"
 # ifdef __linux__
@@ -36,8 +37,14 @@ typedef struct s_vector
 {
 	int	x;
 	int	y;
-	int	z;
 }	t_vec;
+
+typedef struct s_map
+{
+	size_t	wide;
+	size_t	deep;
+	char	**map;
+}	t_map;
 
 char *get_next_line(int fd);
 

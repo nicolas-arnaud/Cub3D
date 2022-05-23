@@ -1,8 +1,8 @@
 NAME	= cub3d
 LIBFT	= libft.a
 
-SRCS	= sources/cub3d.c
-OBJS	= $(SRCS:.c=.o)
+SRCS	= sources/main.c sources/utils/getline.c
+OBJS	= ${SRCS:.c=.o}
 
 CC		= gcc
 RM		= rm -rf
@@ -29,9 +29,9 @@ $(LIBFT):
 all:		$(NAME)
 
 $(NAME):	$(LIBFT) $(OBJS)
-		@echo "Making Cub3D."
-		@${CC} -g ${OBJS} -o ${NAME} ${LFLAGS}
-		@echo "Done."
+			@echo "Making Cub3D."
+			@${CC} -g ${OBJS} -o ${NAME} ${LFLAGS}
+			@echo "Done."
 
 clean:
 		@echo "Cleaning objects."
