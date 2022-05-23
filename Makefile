@@ -1,7 +1,7 @@
 NAME	= cub3d
 LIBFT	= libft.a
 
-SRCS	= sources/main.c sources/utils/getline.c
+SRCS	= sources/main.c sources/parsing.c sources/utils/getline.c
 OBJS	= ${SRCS:.c=.o}
 
 CC		= gcc
@@ -14,7 +14,7 @@ endif
 ifeq ($(UNAME_S), Darwin)
 	LFLAGS	= -lmlx -framework OpenGL -framework AppKit -L. -lft
 endif
-CFLAGS	= -Werror -Wall -Wextra -g -O3 -ffast-math -funsafe-math-optimizations
+CFLAGS	= -Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
 
 $(LIBFT):
 		#@git clone 
@@ -30,7 +30,12 @@ all:		$(NAME)
 
 $(NAME):	$(LIBFT) $(OBJS)
 			@echo "Making Cub3D."
-			@${CC} -g ${OBJS} -o ${NAME} ${LFLAGS}
+			@${CC}  ${OBJS} -o ${NAME} ${LFLAGS}
+			@echo "Done."
+
+debug:		$(LIBFT)
+			@echo "Making Cub3D with debug on."
+			@${CC} ${SRCS} -g -D DEBUG=1 ${CFLAGS} ${LFLAGS} -o ${NAME}
 			@echo "Done."
 
 clean:
@@ -49,4 +54,4 @@ fclean:		clean
 
 re:			fclean all
 
-.PHONY:		all clean fclean re
+.PHONY:		all clean fclean re debug

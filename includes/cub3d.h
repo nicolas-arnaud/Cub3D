@@ -6,12 +6,16 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/23 14:44:49 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/23 17:31:16 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
 
 # define BUFFER_SIZE 4096
 # define UNIT 200
@@ -57,6 +61,7 @@ typedef struct s_env
 	t_map	*map;
 }	t_env;
 
-char *get_next_line(int fd);
+t_env	*parse_envFile(char *filename);
+char	*get_next_line(int fd);
 
 #endif
