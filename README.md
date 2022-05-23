@@ -3,13 +3,18 @@ CUBE3D
 
 [Subject](https://cdn.intra.42.fr/pdf/pdf/48490/fr.subject.pdf)
 
+## Resources :
+- [Walls textures](https://opengameart.org/art-search-advanced?field_art_tags_tid=wall)
+- [Convert to xpm](https://convertio.co/)
+
 ## Program life cycle :
 - map parsing :
-	- extract textures,
-	- verify map format`
-	- import map `into array
-	- save player pos
-	- verify map validy 
+	- [ ] read file,
+	- [ ] extract walls textures,
+	- [ ] extract sky and ceil colors
+	- [ ] import map into array,
+	- [ ] save player pos,
+	- [ ] handle errors,
 - initialize env
 - generate window
 - display view
@@ -25,21 +30,8 @@ CUBE3D
 The map must be closed with the player inside the walls.
 - calloc a 2D array as X size is the size of the longer
 	line and y is the numbers of map lines.
-- set the array cells to 1 for floor, 2 for walls and 3 for player.
+- set the array cells to 1 for floor, 2 for walls
 - outside cells will be zeros.
-- e.g :
-
-0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 0 0 0 0 0 2 2 2 2 0 0 0 0 0
-0 0 0 2 1 1 1 1 1 1 1 1 1 1 2 0 0 0 2 2 2 1 1 2 0 0 0 0 0
-2 2 2 2 2 1 1 1 1 1 1 1 1 1 2 2 2 2 2 1 1 1 1 2 2 2 0 0 0
-0 0 0 0 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2
-0 0 0 0 2 1 1 1 1 1 1 1 1 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 2
-0 0 0 0 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2
-0 0 0 0 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2
-2 2 2 2 2 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-2 1 1 1 1 1 1 1 1 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-2 2 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-
 - read line by line until you encounter first wall then turn around
 the map following the walls and never going on an already visited
 wall until you come back to starting pos.
