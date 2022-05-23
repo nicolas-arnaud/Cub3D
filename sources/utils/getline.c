@@ -20,10 +20,10 @@ char	*save_buffer(char *buffer, int *i)
 
 	part1 = ft_calloc(512, sizeof(char));
 	j = 0;
-	while (j < 512 && buffer[*i])
+	while (j < 512)
 	{
 		part1[j++] = buffer[*i];
-		if (buffer[(*i)++] == '\n')
+		if (buffer[*i] == '\0' || buffer[(*i)++] == '\n')
 			return (part1);
 	}
 	part2 = save_buffer(buffer, i);

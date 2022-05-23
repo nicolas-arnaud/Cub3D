@@ -6,13 +6,16 @@ CUBE3D
 ## Resources :
 - [Walls textures](https://opengameart.org/art-search-advanced?field_art_tags_tid=wall)
 - [Convert to xpm](https://convertio.co/)
+- [Debug maps (Outdated?)](https://github.com/nsterk/cub3D/tree/main/maps)
+- [Tester & maps](https://github.com/MichelleJiam/cub3D_tester)
 
 ## Program life cycle :
 - map parsing :
-	- [ ] read file,
-	- [ ] extract walls textures,
-	- [ ] extract sky and ceil colors
-	- [ ] import map into array,
+	- [o] read file,
+	- [o] extract walls textures,
+	- [o] extract sky and ceil colors
+	- [o] import map into chained list,
+	- [-] comvert list to 2D array.
 	- [ ] save player pos,
 	- [ ] handle errors,
 - initialize env
