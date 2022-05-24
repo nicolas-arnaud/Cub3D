@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/23 17:47:07 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/24 16:17:37 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,24 +121,5 @@ t_env	*parse_envFile(char *filename)
 	}
 	if (ret->step < 6)
 		return (NULL);
-	if (DEBUG)
-	{
-		printf("========> WALLS <========\nNorth: %s\nSouth: %s\nWest: %s\nEast: %s\n",\
-				ret->wallTexture[0], ret->wallTexture[1],\
-				ret->wallTexture[2], ret->wallTexture[3]);
-		printf("========================\n");
-		printf("=> Floor color: %d\n=> Ceil color: %d\n", ret->floorColor, ret->ceilColor);
-		printf("========> MAP <========\n");
-		y = 0;
-		raw_map = ret->raw_map;
-		while (y < ret->deep)
-		{
-			printf("%s\n", (char *)raw_map->content);
-			y++;
-			raw_map = raw_map->next;
-		}
-	}
 	return (ret);
 }
-
-

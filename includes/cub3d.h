@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/23 17:31:16 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/24 16:43:16 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # ifndef DEBUG
 #  define DEBUG 0
 # endif
+
+# define WIN_X_SZ	900
+# define WIN_Y_SZ	900
 
 # define BUFFER_SIZE 4096
 # define UNIT 200
@@ -59,6 +62,8 @@ typedef struct s_env
 	t_slist	*raw_map;
 	int		deep;
 	t_map	*map;
+	void	*mlx;
+	void	*window;
 }	t_env;
 
 t_env	*parse_envFile(char *filename);

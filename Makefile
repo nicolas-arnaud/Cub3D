@@ -15,42 +15,42 @@ ifeq ($(UNAME_S), Darwin)
 	LFLAGS	= -lmlx -framework OpenGL -framework AppKit -L. -lft
 endif
 CFLAGS	= -Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
-
-$(LIBFT):
-		#@git clone 
-		@${MAKE} -C libft/
-		@cp libft/libft.a .
-		@cp libft/libft.h includes/
-		#@${RM} libft/
-
+	
 %.o:%.c
-		@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 all:		$(NAME)
 
+$(VERBOSE).SILENT:
+
+$(LIBFT):
+		${MAKE} -C libft/
+		cp libft/libft.a .
+		cp libft/libft.h includes/
+
+
 $(NAME):	$(LIBFT) $(OBJS)
-			@echo "Making Cub3D."
-			@${CC}  ${OBJS} -o ${NAME} ${LFLAGS}
-			@echo "Done."
+			echo Making Cub3D...
+			${CC}  ${OBJS} -o ${NAME} ${LFLAGS}
+			echo ✅
 
 debug:		$(LIBFT)
-			@echo "Making Cub3D with debug on."
-			@${CC} ${SRCS} -g -D DEBUG=1 ${CFLAGS} ${LFLAGS} -o ${NAME}
-			@echo "Done."
+			echo Making Cub3D with debug on...
+			${CC} ${SRCS} -g -D DEBUG=1 ${CFLAGS} ${LFLAGS} -o ${NAME}
+			echo ✅
 
 clean:
-		@echo "Cleaning objects."
-		@${RM} ${OBJS}
-		@echo "Done."
+		echo Cleaning objects...
+		${RM} ${OBJS}
+		echo ✅
 
 fclean:		clean	
-		@echo "Cleaning libft."
-		@${MAKE} -C libft fclean
-		@${RM} libft.a
-		@${RM} includes/libft.h
-		@echo "Cleaning binary."
-		@${RM} ${NAME}
-		@echo "Done."
+		${MAKE} -C libft fclean
+		${RM} libft.a
+		${RM} includes/libft.h
+		echo Cleaning binary...
+		${RM} ${NAME}
+		echo ✅
 
 re:			fclean all
 

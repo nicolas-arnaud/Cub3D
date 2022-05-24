@@ -37,23 +37,23 @@ RM			=	rm -rf
 CFLAGS		=	-Wall -Wextra -Werror
 
 .c.o:
-					@${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
+					${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
 
 all	:			$(NAME)
 
 $(NAME):		$(OBJS)
-					@echo "Making libft."
-					@${AR} ${NAME} ${OBJS}
-					@echo "Done."
+					echo Making libft...
+					${AR} ${NAME} ${OBJS}
+					echo ✅
 
 clean:
-					@echo "Cleaning libft."
-					@${RM} ${OBJS}
-					@${RM} ${OBJS_BONUS}
-					@echo "Done."
+					echo Cleaning libft...
+					${RM} ${OBJS}
+					${RM} ${OBJS_BONUS}
+					echo ✅
 
 fclean:			clean
-					@${RM} ${NAME}
+					${RM} ${NAME}
 
 re:				fclean all
 
