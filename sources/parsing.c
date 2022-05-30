@@ -6,39 +6,25 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/24 16:17:37 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/30 18:07:33 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	get_map_datas(t_env *env, char *line)
+int	cleanup_datas(t_env *env)
 {
-	t_slist	*lst_e;
-	char	*map_y;
-	int		i;
-	
-	i = 0;
-	map_y = malloc((ft_strlen(line)) * sizeof(char));
-	while (*line)
-	{
-		if (*line == '\n')
-			break ;
-		else if (!ft_isspace(*line))
-			map_y[i] = *line;
-		else
-			map_y[i] = '0';
-		line++;
-		i++;
-	}
-	map_y[i] = '\0';
-	env->deep++;
-	lst_e = malloc(sizeof(*lst_e));
-	lst_e->next = NULL;
-	lst_e->content = map_y;
-	ft_slst_add_back(&(env->raw_map), lst_e);
-}
 
+	if (env->wallTexture[0])
+		free(env->wallTexture[0]);
+	if (env->wallTexture[1])
+		free(env->wallTexture[1]);
+	if (env->wallTexture[2])
+		free(env->wallTexture[2]);
+	if (env->wallTexture[3])
+		free(env->wallTexture[3]);
+	return (1);
+}
 int	rgb_to_int(char	**rgb)
 {
 	int		ret;
@@ -71,15 +57,10 @@ int	rgb_to_int(char	**rgb)
 	return (ret);
 }
 
-void	register_data(t_env	*env, char *line)
+void	register_settings(int *progress, t_env *env, char *line)
 {
 	char	**elem;
 
-	if (*line && *line != '\n' && env->step > 5)
-	{
-		get_map_datas(env, line);
-		return ;
-	}
 	elem = ft_split(line, ' ');
 	if (!elem[0] || !elem[1])
 		return ;
@@ -96,30 +77,148 @@ void	register_data(t_env	*env, char *line)
 	else if (!ft_strncmp(elem[0],"C", 2))
 		env->ceilColor = rgb_to_int(elem);
 	else
-		env->step--;
-	env->step++;
+		(*progress)--;
+	(*progress)++;
 	ft_free_split(elem);
+}
+
+/* TODO : measure wide and deep progressively
+ */
+t_slist	*read_map_line(t_env *env, char *line)
+{
+	t_slist	*ret;
+	char	*map_y;
+	int		i;
+	
+	ret = malloc(sizeof(t_slist));
+	i = 0;
+	map_y = malloc((ft_strlen(line)) * sizeof(char));
+	while (*line)
+	{
+		if (*line == '\n')
+			break ;
+		else if (!ft_isspace(*line))
+			map_y[i] = *line;
+		else
+			map_y[i] = '0';
+		line++;
+		i++;
+	}
+	map_y[i] = '\0';
+	if (i > env->wide)
+		env->wide = i;
+	env->deep++;
+	ret->next = NULL;
+	ret->content = map_y;
+	return (ret);
+}
+
+char	**create_map_array(t_slist	*e_lst, int wide, int deep)
+{
+	char	**ret;
+	char	*endLine;
+	t_slist	*tmp;
+	int		i;
+
+	if (!e_lst)
+		return (ft_calloc(1, sizeof(char *)));
+	ret = ft_calloc(deep + 1, sizeof(char *));
+	i = 0;
+	while (i < deep)
+	{
+		endLine = ft_calloc(wide - ft_strlen(e_lst->content) + 1, sizeof(char));
+		endLine = memset(endLine, '0', wide - ft_strlen(e_lst->content) * sizeof(char));
+		ret[i] = ft_strjoin(e_lst->content, endLine);
+		free(endLine);
+		free(e_lst->content);
+		tmp = e_lst;
+		e_lst = e_lst->next;
+		free(tmp);
+		i++;
+	}
+	return (ret);
+}
+
+void	find_player(t_env *env) 
+{
+	char **map;
+	int		x;
+	int		y;
+	char	cell;
+
+	y = 0;
+
+	map = env->map;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			cell = map[y][x];
+			if (cell == 'N' || cell == 'S' || cell == 'E' || cell == 'W')
+			{
+				env->playerPos.x = x;
+				env->playerPos.y = y;
+				env->yaw = cell;
+				return ;
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+int	is_in_open_room(t_env *env, int x, int y)
+{
+	static char	*checked;
+
+	if (x < 0 || x >= env->wide || y < 0 || y >= env->deep)
+		return (1);
+	if (!checked)
+		checked = ft_calloc(env->deep * env->wide + 1, sizeof(char));
+	if (checked[y * env->wide + x])
+		return (0);
+	else if (env->map[y][x] == '1')
+		return (0);
+	else if (is_in_open_room(env, x + 1, y)
+			|| is_in_open_room(env, x - 1, y)
+			|| is_in_open_room(env, x, y + 1)
+			|| is_in_open_room(env, x, y - 1))
+		return (1);
+	else
+		return (0);
 }
 
 t_env	*parse_envFile(char *filename)
 {
 	int		fd;
 	char	*line;
+	int		progress;
+	t_slist	*e_map;
 	t_env	*ret;
-	int		y;
-	t_slist	*raw_map;
 
-	ret = malloc(sizeof(t_env));
+	progress = 0;
+	e_map = NULL;
+	ret = ft_calloc(1, sizeof(t_env));
 	ret->deep = 0;
+	ret->wide = 0;
 	fd = open(filename, O_RDONLY);
 	line = get_next_line(fd);
 	while (line)
 	{
-		register_data(ret, line);
+		if (*line && *line != '\n' && progress > 5 && progress++)
+			ft_slst_add_back(&e_map, read_map_line(ret, line));
+		else
+			register_settings(&progress, ret, line);
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (ret->step < 6)
+	if (progress < 6 && cleanup_datas(ret))
+		return (NULL);
+	else
+		ret->map = create_map_array(e_map, ret->wide, ret->deep);
+	find_player(ret);
+	if (is_in_open_room(ret, ret->playerPos.x, ret->playerPos.y) && cleanup_datas(ret))   //add map cleanup in cleanup_datas
 		return (NULL);
 	return (ret);
 }

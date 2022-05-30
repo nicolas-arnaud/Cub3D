@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/24 16:43:16 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/30 18:02:08 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,26 @@ typedef struct s_vector
 	int	y;
 }	t_vec;
 
-typedef struct s_map
-{
-	size_t	wide;
-	size_t	deep;
-	char	**map;
-}	t_map;
-
 typedef struct s_env
 {
-	int		step;
+	int	wide;
+	int	deep;
 	char	*wallTexture[4];
 	int		floorColor;
 	int		ceilColor;
-	t_slist	*raw_map;
-	int		deep;
-	t_map	*map;
+	char	**map;
 	void	*mlx;
-	void	*window;
+	void	*win;
+	void	*img;
+	int		pixel_bits;
+	int		line_bytes;
+	int		endian;
+	int		*buffer;
+	t_vec	playerPos;
+	int		yaw;
 }	t_env;
 
+int		rgb_to_int(char	**rgb);
 t_env	*parse_envFile(char *filename);
 char	*get_next_line(int fd);
 
