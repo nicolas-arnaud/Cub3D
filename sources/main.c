@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:22:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/30 16:50:21 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 07:54:29 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,14 @@ void	render_minimap(t_env *env)
 		while (map[vec.y][vec.x])
 		{
 			if (map[vec.y][vec.x] == '0')		
-				draw_square(env, vec, 24, 39424);
+				draw_square(env, vec, 6, 39424);
 			else if (map[vec.y][vec.x] == '1')
-				draw_square(env, vec, 24, 10420483);
-			else
-				draw_square(env, vec, 24, 255);
+				draw_square(env, vec, 6, 10420483);
 			vec.x++;
 		}
 		vec.y++;
 	}
+	draw_square(env, env->playerPos, 6, 255);
 }
 
 int	main(int argc, char **argv)
@@ -82,6 +81,8 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		return (EXIT_FAILURE);
 	env = parse_envFile(argv[1]);	
+	if (!env)
+		return (EXIT_FAILURE);
 	if (DEBUG)
 	{
 		printf("\e[1;32m========> WALLS <========\e[0m\nNorth: %s\nSouth: %s\nWest: %s\nEast: %s\n",\

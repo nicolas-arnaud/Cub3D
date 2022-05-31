@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/30 18:07:33 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 07:56:35 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ char	**create_map_array(t_slist	*e_lst, int wide, int deep)
 	return (ret);
 }
 
-void	find_player(t_env *env) 
+int	find_player(t_env *env) 
 {
 	char **map;
 	int		x;
@@ -160,12 +160,14 @@ void	find_player(t_env *env)
 				env->playerPos.x = x;
 				env->playerPos.y = y;
 				env->yaw = cell;
-				return ;
+				map[y][x] = '0';
+				return (1);
 			}
 			x++;
 		}
 		y++;
 	}
+	return (0);
 }
 
 int	is_in_open_room(t_env *env, int x, int y)
@@ -178,7 +180,8 @@ int	is_in_open_room(t_env *env, int x, int y)
 		checked = ft_calloc(env->deep * env->wide + 1, sizeof(char));
 	if (checked[y * env->wide + x])
 		return (0);
-	else if (env->map[y][x] == '1')
+	checked[y * env->wide + x] = 1;
+	if (env->map[y][x] == '1')
 		return (0);
 	else if (is_in_open_room(env, x + 1, y)
 			|| is_in_open_room(env, x - 1, y)
@@ -217,8 +220,11 @@ t_env	*parse_envFile(char *filename)
 		return (NULL);
 	else
 		ret->map = create_map_array(e_map, ret->wide, ret->deep);
-	find_player(ret);
-	if (is_in_open_room(ret, ret->playerPos.x, ret->playerPos.y) && cleanup_datas(ret))   //add map cleanup in cleanup_datas
+	if ((!find_player(ret) || is_in_open_room(ret, ret->playerPos.x, ret->playerPos.y))
+			&& cleanup_datas(ret))   //add map cleanup in cleanup_datas
+	{
+		printf("Error: You are using an open map.");
 		return (NULL);
+	}
 	return (ret);
 }
