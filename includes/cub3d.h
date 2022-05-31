@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/30 18:02:08 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 09:01:49 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ typedef struct s_vector
 	int	y;
 }	t_vec;
 
+typedef struct s_vector_d
+{
+	double	x;
+	double	y;
+}	t_vec_d;
+
 typedef struct s_env
 {
-	int	wide;
-	int	deep;
-	char	*wallTexture[4];
-	int		floorColor;
-	int		ceilColor;
-	char	**map;
 	void	*mlx;
 	void	*win;
 	void	*img;
@@ -61,11 +61,18 @@ typedef struct s_env
 	int		line_bytes;
 	int		endian;
 	int		*buffer;
-	t_vec	playerPos;
-	int		yaw;
+	char	*wallTexture[4];
+	int		floorColor;
+	int		ceilColor;
+	char	**map;
+	int		wide;
+	int		deep;
+	t_vec_d	playerPos;
+	t_vec_d		playerDir;
 }	t_env;
 
 int		rgb_to_int(char	**rgb);
+void	set_vec(t_vec_d *vec, int x, int y);
 t_env	*parse_envFile(char *filename);
 char	*get_next_line(int fd);
 

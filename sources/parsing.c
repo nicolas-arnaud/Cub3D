@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 07:56:35 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 09:00:17 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,37 +24,6 @@ int	cleanup_datas(t_env *env)
 	if (env->wallTexture[3])
 		free(env->wallTexture[3]);
 	return (1);
-}
-int	rgb_to_int(char	**rgb)
-{
-	int		ret;
-	int		i;
-	int		c;
-	char	**colors;
-
-	ret = 0;
-	rgb++;
-	colors = ft_split(*rgb, ',');
-	c = 0;
-	i = 0;
-	while (c < 3)
-	{
-		if (colors[i])
-		{
-			ret |= ft_atoi(colors[i]) << (8 * (2 - c));
-			c++;
-			i++;
-		}
-		else
-		{
-			ft_free_split(colors);
-			rgb++;
-			i = 0;
-			colors = ft_split(*rgb, ',');
-		}
-	}
-	ft_free_split(colors);
-	return (ret);
 }
 
 void	register_settings(int *progress, t_env *env, char *line)
@@ -139,6 +108,25 @@ char	**create_map_array(t_slist	*e_lst, int wide, int deep)
 	return (ret);
 }
 
+int	init_player(t_env *env, int x, int y)
+{
+	char	orientation;
+
+	orientation = env->map[y][x];
+	env->map[y][x] = '0';
+	set_vec(&env->playerPos, x, y);
+	if (orientation == 'N')
+		set_vec(&env->playerDir, 0, -1);
+	else if (orientation == 'S')
+		set_vec(&env->playerDir, 0, 1);
+	else if (orientation == 'E')
+		set_vec(&env->playerDir, 1, 0);
+	else if (orientation == 'W')
+		set_vec(&env->playerDir, -1, -1);
+	return (1);
+
+}
+
 int	find_player(t_env *env) 
 {
 	char **map;
@@ -156,13 +144,7 @@ int	find_player(t_env *env)
 		{
 			cell = map[y][x];
 			if (cell == 'N' || cell == 'S' || cell == 'E' || cell == 'W')
-			{
-				env->playerPos.x = x;
-				env->playerPos.y = y;
-				env->yaw = cell;
-				map[y][x] = '0';
-				return (1);
-			}
+				return (init_player(env, x, y));
 			x++;
 		}
 		y++;

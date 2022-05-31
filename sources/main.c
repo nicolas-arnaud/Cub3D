@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:22:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 07:54:29 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 09:13:28 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ void	init_window(t_env *env)
 		//exit(error_msg("Mlx fail to create window", 1));
 	env->win = window;
 }
-/*
-void	launch_game(){
-
-}
-*/
 
 void	draw_square(t_env *env, t_vec vec, int size, int color)
 {
@@ -70,7 +65,45 @@ void	render_minimap(t_env *env)
 		}
 		vec.y++;
 	}
-	draw_square(env, env->playerPos, 6, 255);
+	vec.x = round(env->playerPos.x);
+	vec.y = round(env->playerPos.y);
+	draw_square(env, vec, 6, 255);
+}
+
+void render_view(t_env *env)
+{
+	(void)env;
+}
+
+int key_hook_primary(int keycode, void *param)
+{	
+	t_env *env;
+
+	env = (t_env *)param;
+	env->img = mlx_new_image(env->mlx, WIN_X_SZ, WIN_Y_SZ);
+	env->buffer = (int *)mlx_get_data_addr(env->img, \
+		&env->pixel_bits, &env->line_bytes, &env->endian);
+	env->line_bytes /= 4;
+	if (keycode == KEY_ARROW_UP)
+		set_vec(&env->playerPos, env->playerPos.x + env->playerDir.x, env->playerPos.y + env->playerDir.y);
+	else if (keycode == KEY_ARROW_DOWN)
+		set_vec(&env->playerPos, env->playerPos.x - env->playerDir.x, env->playerPos.y - env->playerDir.y);
+	else if (keycode == KEY_ARROW_LEFT)
+	{
+		 set_vec(&env->playerDir,
+				 cos(-M_PI / 2) * env->playerDir.x - sin(-M_PI / 2) * env->playerDir.y,
+				 sin(-M_PI / 2) * env->playerDir.x + cos(-M_PI / 2) * env->playerDir.y);
+	}
+	else if (keycode == KEY_ARROW_RIGHT)
+	{
+		 set_vec(&env->playerDir,
+				 cos(M_PI / 2) * env->playerDir.x - sin(M_PI / 2) * env->playerDir.y,
+				 sin(M_PI / 2) * env->playerDir.x + cos(M_PI / 2) * env->playerDir.y);
+	}
+	render_minimap(env);
+	render_view(env);
+	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
+	return (1);
 }
 
 int	main(int argc, char **argv)
@@ -96,14 +129,7 @@ int	main(int argc, char **argv)
 			printf("%s\n", env->map[y++]);
 	}
 	init_window(env);
-	env->img = mlx_new_image(env->mlx, WIN_X_SZ, WIN_Y_SZ);
-	env->buffer = (int *)mlx_get_data_addr(env->img, \
-		&env->pixel_bits, &env->line_bytes, &env->endian);
-	env->line_bytes /= 4;
-	//launch_game(env);
-	render_minimap(env);
-	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
-	//mlx_key_hook(env->win, key_hook_primary, env);
+	mlx_key_hook(env->win, key_hook_primary, env);
 	mlx_loop(env->mlx);
 	return (EXIT_SUCCESS);
 }

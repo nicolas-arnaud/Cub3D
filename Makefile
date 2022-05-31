@@ -1,7 +1,7 @@
 NAME	= cub3d
 LIBFT	= libft.a
 
-SRCS	= sources/main.c sources/parsing.c sources/utils/getline.c
+SRCS	= sources/main.c sources/parsing.c sources/getline.c sources/utils.c
 OBJS	= ${SRCS:.c=.o}
 
 CC		= gcc
