@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 13:36:06 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 16:17:03 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #  define DEBUG 0
 # endif
 
-# define WIN_X_SZ	900
+# define WIN_X_SZ	1760
 # define WIN_Y_SZ	900
 
 # define BUFFER_SIZE 4096

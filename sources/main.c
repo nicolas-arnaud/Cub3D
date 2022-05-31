@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:22:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 15:09:14 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 17:13:28 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,22 @@ void	init_window(t_env *env)
 int key_hook_primary(int keycode, void *param)
 {	
 	t_env *env;
-	static t_vec_d new_pos;
 
 	env = (t_env *)param;
 	if (keycode == KEY_ARROW_UP)
-		set_vec(&new_pos, env->playerPos.x + env->playerDir.x, env->playerPos.y + env->playerDir.y);
+	{
+		if (env->map[(int)env->playerPos.y][(int)(env->playerPos.x + env->playerDir.x / 5)] == '0')
+			set_vec(&env->playerPos, env->playerPos.x + env->playerDir.x / 5, env->playerPos.y);
+		if (env->map[(int)(env->playerPos.y + env->playerDir.y / 5)][(int)env->playerPos.x] == '0')
+			set_vec(&env->playerPos, env->playerPos.x, env->playerPos.y + env->playerDir.y / 5);
+	}
 	else if (keycode == KEY_ARROW_DOWN)
-		set_vec(&new_pos, env->playerPos.x - env->playerDir.x, env->playerPos.y - env->playerDir.y);
-	if (env->map[(int)floor(new_pos.y)][(int)floor(new_pos.x)] == '0')
-		env->playerPos = new_pos;
-	else
-		new_pos = env->playerPos;
+	{
+		if (env->map[(int)env->playerPos.y][(int)(env->playerPos.x - env->playerDir.x / 5)] == '0')
+			set_vec(&env->playerPos, env->playerPos.x - env->playerDir.x / 5, env->playerPos.y);
+		if (env->map[(int)(env->playerPos.y - env->playerDir.y / 5)][(int)env->playerPos.x] == '0')
+			set_vec(&env->playerPos, env->playerPos.x, env->playerPos.y - env->playerDir.y / 5);
+	}
 	if (keycode == KEY_ARROW_LEFT)
 	{
 		 set_vec(&env->playerDir,
@@ -58,6 +63,11 @@ int key_hook_primary(int keycode, void *param)
 		 set_vec(&env->camPlan,
 				 cos(M_PI / 9) * env->camPlan.x - sin(M_PI / 9) * env->camPlan.y,
 				 sin(M_PI / 9) * env->camPlan.x + cos(M_PI / 9) * env->camPlan.y);
+	}
+	if (DEBUG)
+	{
+	printf("playerPos: %f, %f. playerDir: %f, %f\n", env->playerPos.x, env->playerPos.y, env->playerDir.x, env->playerDir.y);
+	printf("camPlan: %f, %f\n", env->camPlan.x, env->camPlan.y);
 	}
 	render(env);
 	return (1);

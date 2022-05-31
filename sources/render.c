@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 09:33:02 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 13:46:43 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 18:11:15 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	draw_vert(t_env *env, int x, int *startEnd, int color)
 	}
 }
 
-void	draw_square(t_env *env, t_vec vec, int size, int color)
+void	draw_square(t_env *env, t_vec_d vec, int size, int color)
 {
 	int	step_x;
 	int	step_y;
@@ -46,7 +46,10 @@ void	draw_square(t_env *env, t_vec vec, int size, int color)
 		step_x = 0;
 		while (step_x < size)
 		{
-			env->buffer[(env->line_bytes * (vec.y * size + step_y)) + (vec.x * size + step_x)] = color;
+			if (step_x == size - 1 || step_y == size - 1)
+				env->buffer[(env->line_bytes * (int)(vec.y * size + step_y)) + (int)(vec.x * size + step_x)] = 0;
+			else
+				env->buffer[(env->line_bytes * (int)(vec.y * size + step_y)) + (int)(vec.x * size + step_x)] = color;
 			step_x++;
 		}
 		step_y++;
@@ -57,6 +60,7 @@ void	render_minimap(t_env *env)
 {
 	char	**map;
 	t_vec	vec;
+	t_vec_d	vecd;
 
 	vec.y = 0;
 	map = env->map;
@@ -65,17 +69,17 @@ void	render_minimap(t_env *env)
 		vec.x = 0;
 		while (map[vec.y][vec.x])
 		{
+			vecd = (t_vec_d){vec.x, vec.y};
 			if (map[vec.y][vec.x] == '0')		
-				draw_square(env, vec, 6, 39424);
+				draw_square(env, vecd, 6, 39424);
 			else if (map[vec.y][vec.x] == '1')
-				draw_square(env, vec, 6, 11885067);
+				draw_square(env, vecd, 6, 11885067);
 			vec.x++;
 		}
 		vec.y++;
 	}
-	vec.x = round(env->playerPos.x);
-	vec.y = round(env->playerPos.y);
-	draw_square(env, vec, 6, 255);
+	vecd = (t_vec_d){env->playerPos.x, env->playerPos.y};
+	draw_square(env, vecd, 6, 255);
 }
 
 double	get_wall_dist(t_env *env, int x)
