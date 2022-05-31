@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 09:00:17 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 12:25:58 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,9 @@ int	init_player(t_env *env, int x, int y)
 		set_vec(&env->playerDir, 1, 0);
 	else if (orientation == 'W')
 		set_vec(&env->playerDir, -1, -1);
+	set_vec(&env->camPlan,
+		 2 * (cos(M_PI / 2) * env->playerDir.x - sin(M_PI / 2) * env->playerDir.y) / 3,
+		 2 * (sin(M_PI / 2) * env->playerDir.x + cos(M_PI / 2) * env->playerDir.y) / 3);
 	return (1);
 
 }

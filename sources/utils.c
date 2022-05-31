@@ -6,13 +6,18 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:59:01 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 09:00:10 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 12:22:41 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	set_vec(t_vec_d *vec, int x, int y)
+double	vec_len(t_vec_d vec)
+{
+	return (sqrt(vec.x * vec.x + vec.y * vec.y));
+}
+
+void	set_vec(t_vec_d *vec, double x, double y)
 {
 	vec->x = x;
 	vec->y = y;

@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 09:01:49 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 13:36:06 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,18 @@ typedef struct s_env
 	int		wide;
 	int		deep;
 	t_vec_d	playerPos;
-	t_vec_d		playerDir;
+	t_vec_d	playerDir;
+	t_vec_d	camPlan;
 }	t_env;
 
+void	render_minimap(t_env *env);
+void	render_view(t_env *env);
+void	render(t_env *env);
+
 int		rgb_to_int(char	**rgb);
-void	set_vec(t_vec_d *vec, int x, int y);
+void	set_vec(t_vec_d *vec, double x, double y);
+double	vec_len(t_vec_d vec);
+
 t_env	*parse_envFile(char *filename);
 char	*get_next_line(int fd);
 

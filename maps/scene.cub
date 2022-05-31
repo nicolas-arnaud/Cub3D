@@ -3,8 +3,8 @@ EA ./textures/colorstone.xpm
 SO ./textures/wood.xpm
 WE ./textures/wood.xpm
 
-F 147, 159,153
-C 219,213,213
+F 18, 176, 12
+C 27, 210, 227
 
                  11110000
                  100100000

@@ -1,20 +1,21 @@
-NAME	= cub3d
-LIBFT	= libft.a
+NAME	=	cub3d
+LIBFT	=	libft.a
 
-SRCS	= sources/main.c sources/parsing.c sources/getline.c sources/utils.c
-OBJS	= ${SRCS:.c=.o}
+SRCS	=	sources/main.c sources/parsing.c sources/getline.c sources/utils.c
+SRCS	+=	sources/render.c
+OBJS	=	${SRCS:.c=.o}
 
-CC		= gcc
-RM		= rm -rf
+CC		=	gcc
+RM		=	rm -rf
 
-UNAME_S	:= $(shell uname -s)
+UNAME_S	:=	$(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	LFLAGS = -L ./mlx -lmlx_Linux -lXext -lX11 -lm -lz -L. -lft
+	LFLAGS	=	-L ./mlx -lmlx_Linux -lXext -lX11 -lm -lz -L. -lft
 endif
 ifeq ($(UNAME_S), Darwin)
-	LFLAGS	= -lmlx -framework OpenGL -framework AppKit -L. -lft
+	LFLAGS	=	-lmlx -framework OpenGL -framework AppKit -L. -lft
 endif
-CFLAGS	= -Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
+CFLAGS	=	-Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
 	
 %.o:%.c
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
