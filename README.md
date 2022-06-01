@@ -9,6 +9,9 @@ CUBE3D
 - [Debug maps (Outdated?)](https://github.com/nsterk/cub3D/tree/main/maps)
 - [Tester & maps](https://github.com/MichelleJiam/cub3D_tester)
 
+## Issues:
+- Distances increase while time pass.
+
 ## Program life cycle :
 ### Parsing
 - [x] read file,
@@ -29,11 +32,12 @@ CUBE3D
 - [ ] display wall's texture
 ### Control
 - [x] enable commands
-	- [ ] wasd to move
-	- [x] arrows to move
+	- [x] wasd to move
 - [ ] react to commands :
 	- [x] calculate new pos,
 	- [x] display new view,
-	- [-] avoid colisions
+	- [x] avoid colisions
+	- [x] M to show minimap
+	- [x] SHIFT to run
 ### Quit 
 - [ ] clean and exit

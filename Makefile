@@ -16,7 +16,7 @@ endif
 ifeq ($(UNAME_S), Darwin)
 	LFLAGS	=	-lmlx -framework OpenGL -framework AppKit -L. -lft
 endif
-CFLAGS	=	-Werror -Wall -Wextra #-O3 -ffast-math -funsafe-math-optimizations
+CFLAGS	=	-Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
 	
 %.o:%.c
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}

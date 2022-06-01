@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 14:23:18 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 14:59:38 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_env
 	int		endian;
 	int		*buffer;
 	int		minimap;
-	int		controls[256];
+	int		controls[KEYS_LIMIT];
 	char	*wallTexture[4];
 	int		floorColor;
 	int		ceilColor;
@@ -91,7 +91,7 @@ typedef struct s_env
 	t_vec_d	camPlan;
 }	t_env;
 
-void	render_minimap(t_env *env);
+void	render_minimap(t_env *env, t_vec size);
 void	render_view(t_env *env);
 void	render(t_env *env);
 

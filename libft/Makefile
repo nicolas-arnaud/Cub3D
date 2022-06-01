@@ -41,6 +41,8 @@ CFLAGS		=	-Wall -Wextra -Werror
 
 all	:			$(NAME)
 
+$(VERBOSE).SILENT:
+
 $(NAME):		$(OBJS)
 					echo Making libft...
 					${AR} ${NAME} ${OBJS}

@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 20:43:21 by bledda            #+#    #+#             */
-/*   Updated: 2022/05/23 09:42:56 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 14:58:39 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MLX_KEYCODE_H
 
 # ifdef __linux__
+#  define KEYS_LIMIT 66000
 #  define KEY_Q 113
 #  define KEY_W 119
 #  define KEY_E 101
@@ -63,6 +64,7 @@
 #  define KEY_CTRL 65507
 #  define KEY_SPACE 32
 # elif __APPLE__
+#  define KEYS_LIMIT 300
 #  define KEY_Q 12
 #  define KEY_W 13
 #  define KEY_E 14

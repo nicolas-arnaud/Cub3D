@@ -6,63 +6,51 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 09:33:02 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 14:06:23 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 17:00:21 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
+void	draw_rectangle(t_env *env, t_rectangle rect, int borders)
+{
+	int	stepX;
+	int	stepY;
+	
+	stepY = 0;
+	while (stepY < rect.sizeY)
+	{
+		stepX = 0;
+		while (stepX < rect.sizeX)
+		{
+			if (borders && (stepX == rect.sizeX - 1 || stepY == rect.sizeY - 1))
+				env->buffer[(env->line_bytes * (int)(rect.startY + stepY))
+				+ (int)(rect.startX + stepX)] = 0;
+			else
+				env->buffer[(env->line_bytes * (int)(rect.startY + stepY))
+				+ (int)(rect.startX + stepX)] = rect.color;
+			stepX++;
+		}
+		stepY++;
+	}
+}
+
 void	draw_vert(t_env *env, int x, int *startEnd, int color)
 {
-	int y;
-
-	y= 0;
-	while (y < startEnd[0])
-	{
-		env->buffer[env->line_bytes * y + x] = env->ceilColor;
-		y++;
-	}
-	while (startEnd[0] < startEnd[1])
-	{
-		env->buffer[env->line_bytes * startEnd[0] + x] = color;
-		startEnd[0]++;
-	}
-	y = startEnd[0];
-	while (y < WIN_Y_SZ)
-	{
-		env->buffer[env->line_bytes * y + x] = env->floorColor;
-		y++;
-	}
+	draw_rectangle(env, (t_rectangle){x, 0, 1, startEnd[0] - 1, env->ceilColor}, 0);
+	draw_rectangle(env, (t_rectangle){x, startEnd[0], 1, startEnd[1] - startEnd[0] - 1, color}, 0);
+	draw_rectangle(env, (t_rectangle){x, startEnd[1], 1, WIN_Y_SZ - startEnd[1], env->floorColor}, 0);
 }
 
-void	draw_rectangle(t_env *env, t_rectangle rect)
-{
-	int	step_x;
-	int	step_y;
-
-	step_y = 0;
-	while (step_y < rect.sizeY)
-	{
-		step_x = 0;
-		while (step_x < rect.sizeX)
-		{
-			if (step_x == rect.sizeX - 1 || step_y == rect.sizeY - 1)
-				env->buffer[(env->line_bytes * (int)(rect.startY + step_y))
-				+ (int)(rect.startX + step_x)] = 0;
-			else
-				env->buffer[(env->line_bytes * (int)(rect.startY + step_y))
-				+ (int)(rect.startX+ step_x)] = rect.color;
-			step_x++;
-		}
-		step_y++;
-	}
-}
-
-void	render_minimap(t_env *env)
+void	render_minimap(t_env *env, t_vec size)
 {
 	char	**map;
 	t_vec	vec;
+	int		dX;
+	int		dY;
 
+	dX = size.x / env->wide;
+	dY = size.y / env->deep;
 	vec.y = 0;
 	map = env->map;
 	while (map[vec.y])
@@ -71,87 +59,62 @@ void	render_minimap(t_env *env)
 		while (map[vec.y][vec.x])
 		{
 			if (map[vec.y][vec.x] == '0')		
-				draw_rectangle(env, (t_rectangle){vec.x * 6, vec.y * 6, 6, 6, 39424});
+				draw_rectangle(env, (t_rectangle){vec.x * dX, vec.y * dY, dX, dY, 39424}, 1);
 			else if (map[vec.y][vec.x] == '1')
-				draw_rectangle(env, (t_rectangle){vec.x * 6, vec.y * 6, 6, 6, 11885067});
+				draw_rectangle(env, (t_rectangle){vec.x * dX, vec.y * dY, dX, dY, 11885067}, 1);
 			vec.x++;
 		}
 		vec.y++;
 	}
-	draw_rectangle(env, (t_rectangle){env->playerPos.x * 6 - 2,env->playerPos.y * 6 - 2, 4, 4, 255});
+	draw_rectangle(env, (t_rectangle){
+		env->playerPos.x * dX - dX / 4, env->playerPos.y * dY - dY / 4,
+		dX / 2, dY / 2, 255}, 0);
 }
 
 double	get_wall_dist(t_env *env, int x)
 {
 	double	camX;
 	t_vec_d ray;
-	t_vec_d	dDist;
-	t_vec_d sDist;
-	t_vec	cell;
-	t_vec	step;
+	double	dDist[2];
+	double	sDist[2];
+	int		cell[2];
+	int		*step;
 	int		hit;
 	int		side;
 
-	if (env->map[(int)env->playerPos.y][(int)env->playerPos.x] > '0')
-		return (1e-30);
 	camX = 2 * x / (double)WIN_X_SZ - 1;
 	set_vec(&ray, env->playerDir.x + env->camPlan.x * camX, env->playerDir.y + env->camPlan.y * camX);
-	cell.x = (int)(env->playerPos.x);
-	cell.y = (int)(env->playerPos.y);
+	cell[0] = (int)(env->playerPos.x);
+	cell[1] = (int)(env->playerPos.y);
 	if (ray.x == 0)
-		dDist.x = 1e30;
+		dDist[0] = 1e30;
 	else
-		dDist.x = fabs(1 / ray.x);
+		dDist[0] = fabs(1 / ray.x);
 	if (ray.y == 0)
-		dDist.y = 1e30;
+		dDist[1] = 1e30;
 	else
-		dDist.y = fabs(1 / ray.y);
+		dDist[1] = fabs(1 / ray.y);
 	hit = 0;
-	if (ray.x < 0)
-	{
-		step.x = -1;
-		sDist.x = (env->playerPos.x - cell.x) * dDist.x;
-	}
-	else
-	{
-		step.x = 1;
-		sDist.x = (cell.x + 1.0 - env->playerPos.x) * dDist.x;
-	}
-	if (ray.y < 0)
-	{
-		step.y = -1;
-		sDist.y = (env->playerPos.y - cell.y) * dDist.y;
-	}
-	else
-	{
-		step.y = 1;
-		sDist.y = (cell.y + 1.0 - env->playerPos.y) * dDist.y;
-	}
+	step = (int[2]){0, 0};
+	if (ray.x < 0 && --step[0])
+		sDist[0] = (env->playerPos.x - cell[0]) * dDist[0];
+	else if (++step[0])
+		sDist[0] = (cell[0] + 1.0 - env->playerPos.x) * dDist[0];
+	if (ray.y < 0 && --step[1])
+		sDist[1] = (env->playerPos.y - cell[1]) * dDist[1];
+	else if (++step[1])
+		sDist[1] = (cell[1] + 1.0 - env->playerPos.y) * dDist[1];
 	while (hit == 0)
 	{
-		if (sDist.x < sDist.y)
-		{
-			sDist.x += dDist.x;
-			cell.x += step.x;
-			side = 0;
-		}
-		else
-		{
-			sDist.y += dDist.y;
-			cell.y += step.y;
-			side = 1;
-		}
-		if (env->map[cell.y][cell.x] > '0')
+		side = 0;
+		if (sDist[0] > sDist[1])
+			side++;
+		sDist[side] += dDist[side];
+		cell[side] += step[side];
+		if (env->map[cell[1]][cell[0]] > '0')
 			hit = 1;
 	}
-	if (DEBUG)
-	{
-		//printf("X:%d - sideDist: %f, %f. deltaDist: %f, %f.\n", x, sDist.x, sDist.y, dDist.x, dDist.y);
-	}
-	if (side == 0)
-		return (sDist.x - dDist.x);
-	else
-		return (sDist.y - dDist.y);
+	return (sDist[side] - dDist[side]);
 }
 
 void render_view(t_env *env)
@@ -187,7 +150,7 @@ void	render(t_env *env)
 	env->line_bytes /= 4;
 	render_view(env);
 	if (env->minimap)
-		render_minimap(env);
+		render_minimap(env, (t_vec){env->wide * 8, env->deep * 8});
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 	mlx_destroy_image(env->mlx, env->img);
 }
