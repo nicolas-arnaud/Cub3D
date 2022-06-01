@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:22:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 17:13:28 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 13:04:31 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,42 +27,74 @@ void	init_window(t_env *env)
 	env->win = window;
 }
 
-int key_hook_primary(int keycode, void *param)
+int	key_press_hook(int keycode, void *param)
+{
+	t_env	*env;
+
+	env = (t_env *)param;
+	if (keycode == KEY_W)
+		env->control.up = 1;
+	if (keycode == KEY_S)
+		env->control.down = 1;
+	if (keycode == KEY_A)
+		env->control.left = 1;
+	if (keycode == KEY_D)
+		env->control.right = 1;
+	return (1);
+}
+
+int	key_release_hook(int keycode, void *param)
+{
+	t_env	*env;
+
+	env = (t_env *)param;
+	if (keycode == KEY_W)
+		env->control.up = 0;
+	if (keycode == KEY_S)
+		env->control.down = 0;
+	if (keycode == KEY_A)
+		env->control.left = 0;
+	if (keycode == KEY_D)
+		env->control.right = 0;
+	return (1);
+}
+
+int update_hook(void *param)
 {	
 	t_env *env;
 
 	env = (t_env *)param;
-	if (keycode == KEY_ARROW_UP)
+	if (env->control.up)
 	{
-		if (env->map[(int)env->playerPos.y][(int)(env->playerPos.x + env->playerDir.x / 5)] == '0')
-			set_vec(&env->playerPos, env->playerPos.x + env->playerDir.x / 5, env->playerPos.y);
-		if (env->map[(int)(env->playerPos.y + env->playerDir.y / 5)][(int)env->playerPos.x] == '0')
-			set_vec(&env->playerPos, env->playerPos.x, env->playerPos.y + env->playerDir.y / 5);
+		if (env->map[(int)env->playerPos.y][(int)(env->playerPos.x + env->playerDir.x / 10)] == '0')
+			set_vec(&env->playerPos, env->playerPos.x + env->playerDir.x / 10, env->playerPos.y);
+		if (env->map[(int)(env->playerPos.y + env->playerDir.y / 10)][(int)env->playerPos.x] == '0')
+			set_vec(&env->playerPos, env->playerPos.x, env->playerPos.y + env->playerDir.y / 10);
 	}
-	else if (keycode == KEY_ARROW_DOWN)
+	if (env->control.down)
 	{
-		if (env->map[(int)env->playerPos.y][(int)(env->playerPos.x - env->playerDir.x / 5)] == '0')
-			set_vec(&env->playerPos, env->playerPos.x - env->playerDir.x / 5, env->playerPos.y);
-		if (env->map[(int)(env->playerPos.y - env->playerDir.y / 5)][(int)env->playerPos.x] == '0')
-			set_vec(&env->playerPos, env->playerPos.x, env->playerPos.y - env->playerDir.y / 5);
+		if (env->map[(int)env->playerPos.y][(int)(env->playerPos.x - env->playerDir.x / 10)] == '0')
+			set_vec(&env->playerPos, env->playerPos.x - env->playerDir.x / 10, env->playerPos.y);
+		if (env->map[(int)(env->playerPos.y - env->playerDir.y / 10)][(int)env->playerPos.x] == '0')
+			set_vec(&env->playerPos, env->playerPos.x, env->playerPos.y - env->playerDir.y / 10);
 	}
-	if (keycode == KEY_ARROW_LEFT)
+	if (env->control.left)
 	{
 		 set_vec(&env->playerDir,
-				 cos(-M_PI / 9) * env->playerDir.x - sin(-M_PI / 9) * env->playerDir.y,
-				 sin(-M_PI / 9) * env->playerDir.x + cos(-M_PI / 9) * env->playerDir.y);
+				 cos(-M_PI / 36) * env->playerDir.x - sin(-M_PI / 36) * env->playerDir.y,
+				 sin(-M_PI / 36) * env->playerDir.x + cos(-M_PI / 36) * env->playerDir.y);
 		 set_vec(&env->camPlan,
-				 cos(-M_PI / 9) * env->camPlan.x - sin(-M_PI / 9) * env->camPlan.y,
-				 sin(-M_PI / 9) * env->camPlan.x + cos(-M_PI / 9) * env->camPlan.y);
+				 cos(-M_PI / 36) * env->camPlan.x - sin(-M_PI / 36) * env->camPlan.y,
+				 sin(-M_PI / 36) * env->camPlan.x + cos(-M_PI / 36) * env->camPlan.y);
 	}
-	else if (keycode == KEY_ARROW_RIGHT)
+	if (env->control.right)
 	{
 		 set_vec(&env->playerDir,
-				 cos(M_PI / 9) * env->playerDir.x - sin(M_PI / 9) * env->playerDir.y,
-				 sin(M_PI / 9) * env->playerDir.x + cos(M_PI / 9) * env->playerDir.y);
+				 cos(M_PI / 36) * env->playerDir.x - sin(M_PI / 36) * env->playerDir.y,
+				 sin(M_PI / 36) * env->playerDir.x + cos(M_PI / 36) * env->playerDir.y);
 		 set_vec(&env->camPlan,
-				 cos(M_PI / 9) * env->camPlan.x - sin(M_PI / 9) * env->camPlan.y,
-				 sin(M_PI / 9) * env->camPlan.x + cos(M_PI / 9) * env->camPlan.y);
+				 cos(M_PI / 36) * env->camPlan.x - sin(M_PI / 36) * env->camPlan.y,
+				 sin(M_PI / 36) * env->camPlan.x + cos(M_PI / 36) * env->camPlan.y);
 	}
 	if (DEBUG)
 	{
@@ -97,7 +129,9 @@ int	main(int argc, char **argv)
 	}
 	init_window(env);
 	render(env);
-	mlx_key_hook(env->win, key_hook_primary, env);
+	mlx_hook(env->win, 2, 1L<<0, key_press_hook, env);
+	mlx_hook(env->win, 3, 1L<<1, key_release_hook, env);
+	mlx_loop_hook(env->mlx, update_hook, env);
 	mlx_loop(env->mlx);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 18:59:46 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 12:44:59 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,14 @@ typedef struct s_rectangle
 	int color;
 }	t_rectangle;
 
+typedef struct s_control
+{
+	int	up;
+	int	down;
+	int	left;
+	int	right;
+}	t_control;
+
 typedef struct s_env
 {
 	void	*mlx;
@@ -70,6 +78,7 @@ typedef struct s_env
 	int		line_bytes;
 	int		endian;
 	int		*buffer;
+	t_control	control;
 	char	*wallTexture[4];
 	int		floorColor;
 	int		ceilColor;
