@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 09:33:02 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 12:22:39 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 14:06:23 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,8 @@ void	render(t_env *env)
 		&env->pixel_bits, &env->line_bytes, &env->endian);
 	env->line_bytes /= 4;
 	render_view(env);
-	render_minimap(env);
+	if (env->minimap)
+		render_minimap(env);
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 	mlx_destroy_image(env->mlx, env->img);
 }

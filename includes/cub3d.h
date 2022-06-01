@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 12:44:59 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 14:23:18 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ typedef struct s_env
 	int		line_bytes;
 	int		endian;
 	int		*buffer;
-	t_control	control;
+	int		minimap;
+	int		controls[256];
 	char	*wallTexture[4];
 	int		floorColor;
 	int		ceilColor;
@@ -94,9 +95,14 @@ void	render_minimap(t_env *env);
 void	render_view(t_env *env);
 void	render(t_env *env);
 
+int		key_press_hook(int keycode, t_env *env);
+int		key_release_hook(int keycode, t_env *env);
+int		update_hook(t_env *env);
+
 int		rgb_to_int(char	**rgb);
 void	set_vec(t_vec_d *vec, double x, double y);
 double	vec_len(t_vec_d vec);
+void	rot_vec(t_vec_d *vec, double rad);
 
 t_env	*parse_envFile(char *filename);
 char	*get_next_line(int fd);

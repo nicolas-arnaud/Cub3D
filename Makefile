@@ -3,7 +3,7 @@ LIBFT	=	libft.a
 MLX		=   includes/mlx.h
 
 SRCS	=	sources/main.c sources/parsing.c sources/getline.c sources/utils.c
-SRCS	+=	sources/render.c
+SRCS	+=	sources/render.c sources/hooks.c
 OBJS	=	${SRCS:.c=.o}
 
 CC		=	gcc
