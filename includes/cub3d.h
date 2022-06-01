@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 14:59:38 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 17:45:22 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int		update_hook(t_env *env);
 int		rgb_to_int(char	**rgb);
 void	set_vec(t_vec_d *vec, double x, double y);
 double	vec_len(t_vec_d vec);
-void	rot_vec(t_vec_d *vec, double rad);
+void	rot_vec(t_vec_d *vec, double rad, double init_len);
 
 t_env	*parse_envFile(char *filename);
 char	*get_next_line(int fd);
