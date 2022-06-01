@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:47:30 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 17:49:24 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:29:53 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,9 @@ int update_hook(t_env *env)
 			set_vec(&env->playerPos, env->playerPos.x + dX, env->playerPos.y);
 	if (env->map[(int)(env->playerPos.y + dY)][(int)env->playerPos.x] == '0')
 			set_vec(&env->playerPos, env->playerPos.x, env->playerPos.y + dY);
-	rot_vec(&env->playerDir, 
+	env->playerDir = rot_vec(env->playerDir, 
 		(double)(env->controls[KEY_D] - env->controls[KEY_A]) * M_PI / 72, 1);
-	rot_vec(&env->camPlan, 
-		(double)(env->controls[KEY_D] - env->controls[KEY_A]) * M_PI / 72, 0.66);
+	env->camPlan = rot_vec(env->playerDir, M_PI / 2, 0.66);
 	if (DEBUG)
 	{
 	printf("playerPos: %f, %f. playerDir: %f, %f\n", env->playerPos.x, env->playerPos.y, env->playerDir.x, env->playerDir.y);

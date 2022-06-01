@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 08:59:01 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 17:44:56 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 18:18:37 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ void	set_vec(t_vec_d *vec, double x, double y)
 	vec->y = y;
 }
 
-void	rot_vec(t_vec_d *vec, double rad, double init_len)
+t_vec_d	rot_vec(t_vec_d vec, double rad, double init_len)
 {
 	double	len;
+	t_vec_d	ret;
 
-	len = vec_len(*vec);
-	vec->x = (cos(rad) * vec->x - sin(rad) * vec->y) * init_len / len;
-	vec->y = (sin(rad) * vec->x + cos(rad) * vec->y) * init_len / len;
-	
+	len = vec_len(vec);
+	ret.x = (cos(rad) * vec.x - sin(rad) * vec.y) * init_len / len;
+	ret.y = (sin(rad) * vec.x + cos(rad) * vec.y) * init_len / len;
+	return (ret);
 }
 
 int	rgb_to_int(char	**rgb)
