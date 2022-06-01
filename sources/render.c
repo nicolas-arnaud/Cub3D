@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 09:33:02 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 17:00:21 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 19:57:30 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,66 +71,67 @@ void	render_minimap(t_env *env, t_vec size)
 		dX / 2, dY / 2, 255}, 0);
 }
 
-double	get_wall_dist(t_env *env, int x)
-{
-	double	camX;
-	t_vec_d ray;
-	double	dDist[2];
-	double	sDist[2];
-	int		cell[2];
-	int		*step;
-	int		hit;
-	int		side;
 
-	camX = 2 * x / (double)WIN_X_SZ - 1;
-	set_vec(&ray, env->playerDir.x + env->camPlan.x * camX, env->playerDir.y + env->camPlan.y * camX);
-	cell[0] = (int)(env->playerPos.x);
-	cell[1] = (int)(env->playerPos.y);
-	if (ray.x == 0)
-		dDist[0] = 1e30;
-	else
-		dDist[0] = fabs(1 / ray.x);
-	if (ray.y == 0)
-		dDist[1] = 1e30;
-	else
-		dDist[1] = fabs(1 / ray.y);
-	hit = 0;
-	step = (int[2]){0, 0};
-	if (ray.x < 0 && --step[0])
-		sDist[0] = (env->playerPos.x - cell[0]) * dDist[0];
-	else if (++step[0])
-		sDist[0] = (cell[0] + 1.0 - env->playerPos.x) * dDist[0];
-	if (ray.y < 0 && --step[1])
-		sDist[1] = (env->playerPos.y - cell[1]) * dDist[1];
-	else if (++step[1])
-		sDist[1] = (cell[1] + 1.0 - env->playerPos.y) * dDist[1];
-	while (hit == 0)
+double	calculate_dist(t_env *env, t_raycast rc)
+{
+	int	side;
+
+	while (1)
 	{
 		side = 0;
-		if (sDist[0] > sDist[1])
+		if (rc.sDist[0] > rc.sDist[1])
 			side++;
-		sDist[side] += dDist[side];
-		cell[side] += step[side];
-		if (env->map[cell[1]][cell[0]] > '0')
-			hit = 1;
+		rc.sDist[side] += rc.dDist[side];
+		rc.cell[side] += rc.step[side];
+		if (env->map[rc.cell[1]][rc.cell[0]] > '0')
+			return (rc.sDist[side] - rc.dDist[side]);
 	}
-	return (sDist[side] - dDist[side]);
+}
+
+double	get_wall_dist(t_env *env, int x)
+{
+	double		camX;
+	t_raycast	rc;
+
+	camX = 2 * x / (double)WIN_X_SZ - 1;
+	set_vec(&rc.vec, env->playerDir.x + env->camPlan.x * camX,
+		env->playerDir.y + env->camPlan.y * camX);
+	rc.cell[0] = (int)(env->playerPos.x);
+	rc.cell[1] = (int)(env->playerPos.y);
+	if (rc.vec.x == 0)
+		rc.dDist[0] = 1e30;
+	else
+		rc.dDist[0] = fabs(1 / rc.vec.x);
+	if (rc.vec.y == 0)
+		rc.dDist[1] = 1e30;
+	else
+		rc.dDist[1] = fabs(1 / rc.vec.y);
+	rc.step = (int[2]){0, 0};
+	if (rc.vec.x < 0 && --rc.step[0])
+		rc.sDist[0] = (env->playerPos.x - rc.cell[0]) * rc.dDist[0];
+	else if (++rc.step[0])
+		rc.sDist[0] = (rc.cell[0] + 1.0 - env->playerPos.x) * rc.dDist[0];
+	if (rc.vec.y < 0 && --rc.step[1])
+		rc.sDist[1] = (env->playerPos.y - rc.cell[1]) * rc.dDist[1];
+	else if (++rc.step[1])
+		rc.sDist[1] = (rc.cell[1] + 1.0 - env->playerPos.y) * rc.dDist[1];
+	return (calculate_dist(env, rc));
 }
 
 void render_view(t_env *env)
 {
 	int	x;
-	double	perpWallDist;
+	double	wallDist;
 	int		startEnd[2];
 	int		lineHeight;
 	
 	x = 0;
 	while (x < WIN_X_SZ)
 	{
-		perpWallDist = get_wall_dist(env, x);
-		lineHeight = (int)(WIN_Y_SZ / perpWallDist);
+		wallDist = get_wall_dist(env, x);
+		lineHeight = (int)(WIN_Y_SZ / wallDist);
 		if (lineHeight < 0)
-			lineHeight = 0; // = WIN_Y_SZ 
+			lineHeight = 0;
 		startEnd[0] = -lineHeight / 2 + WIN_Y_SZ / 2;
 		if (startEnd[0] < 0)
 			startEnd[0] = 0;

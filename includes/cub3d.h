@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 18:13:08 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/01 19:55:25 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,16 @@ typedef struct s_control
 	int	left;
 	int	right;
 }	t_control;
+
+typedef struct s_raycast
+{
+	t_vec_d	vec;
+	int		cell[2];
+	double	sDist[2];
+	double	dDist[2];
+	int		*step;	
+	
+}	t_raycast;
 
 typedef struct s_env
 {
