@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/31 16:17:03 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/05/31 18:59:46 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,15 @@ typedef struct s_vector_d
 	double	x;
 	double	y;
 }	t_vec_d;
+
+typedef struct s_rectangle
+{
+	int startX;
+	int startY;
+	int	sizeX;
+	int sizeY;
+	int color;
+}	t_rectangle;
 
 typedef struct s_env
 {

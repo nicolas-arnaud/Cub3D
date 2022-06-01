@@ -1,5 +1,6 @@
 NAME	=	cub3d
 LIBFT	=	libft.a
+MLX		=   includes/mlx.h
 
 SRCS	=	sources/main.c sources/parsing.c sources/getline.c sources/utils.c
 SRCS	+=	sources/render.c
@@ -15,7 +16,7 @@ endif
 ifeq ($(UNAME_S), Darwin)
 	LFLAGS	=	-lmlx -framework OpenGL -framework AppKit -L. -lft
 endif
-CFLAGS	=	-Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
+CFLAGS	=	-Werror -Wall -Wextra #-O3 -ffast-math -funsafe-math-optimizations
 	
 %.o:%.c
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
@@ -29,8 +30,10 @@ $(LIBFT):
 		cp libft/libft.a .
 		cp libft/libft.h includes/
 
+$(MLX):
+		cp mlx/mlx.h includes/
 
-$(NAME):	$(LIBFT) $(OBJS)
+$(NAME):	$(LIBFT) $(MLX) $(OBJS)
 			echo Making Cub3D...
 			${CC}  ${OBJS} -o ${NAME} ${LFLAGS}
 			echo ✅
