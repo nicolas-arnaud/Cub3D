@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/02 14:22:08 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/02 17:24:53 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_env
 	t_img	wall[4];
 	int		minimap;
 	int		controls[KEYS_LIMIT];
+	int		mouseX;
 	int		floorColor;
 	int		ceilColor;
 	char	**map;
@@ -116,6 +117,9 @@ void	render(t_env *env);
 
 int		key_press_hook(int keycode, t_env *env);
 int		key_release_hook(int keycode, t_env *env);
+int		mouse_down_hook(int buton, int x, int y, t_env *env);
+int		mouse_move_hook(int x, int y, t_env *env);
+int		mouse_up_hook(int buton, int x, int y, t_env *env);
 int		update_hook(t_env *env);
 
 int		rgb_to_int(char	**rgb);

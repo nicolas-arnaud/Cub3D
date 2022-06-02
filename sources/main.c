@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:22:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/02 15:31:02 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/02 17:35:19 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ int	main(int argc, char **argv)
 	render(env);
 	mlx_hook(env->win, 2, 1L<<0, key_press_hook, env);
 	mlx_hook(env->win, 3, 1L<<1, key_release_hook, env);
+	mlx_hook(env->win, 4, 0L, mouse_down_hook, env);
+	mlx_hook(env->win, 5, 0L, mouse_up_hook, env);
+	mlx_hook(env->win, 6, 0L, mouse_move_hook, env);
 	mlx_loop_hook(env->mlx, update_hook, env);
 	mlx_loop(env->mlx);
 	mlx_destroy_image(env->mlx, env->img);

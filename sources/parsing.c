@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/02 12:34:56 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/02 17:30:35 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ t_env	*parse_envFile(char *filename)
 	ret = ft_calloc(1, sizeof(t_env));
 	ret->deep = 0;
 	ret->wide = 0;
+//	ret->mouseX = 0;
 	fd = open(filename, O_RDONLY);
 	line = get_next_line(fd);
 	while (line)
