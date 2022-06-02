@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 09:33:02 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 19:57:30 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/02 16:05:48 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,6 @@ void	draw_rectangle(t_env *env, t_rectangle rect, int borders)
 	}
 }
 
-void	draw_vert(t_env *env, int x, int *startEnd, int color)
-{
-	draw_rectangle(env, (t_rectangle){x, 0, 1, startEnd[0] - 1, env->ceilColor}, 0);
-	draw_rectangle(env, (t_rectangle){x, startEnd[0], 1, startEnd[1] - startEnd[0] - 1, color}, 0);
-	draw_rectangle(env, (t_rectangle){x, startEnd[1], 1, WIN_Y_SZ - startEnd[1], env->floorColor}, 0);
-}
-
 void	render_minimap(t_env *env, t_vec size)
 {
 	char	**map;
@@ -61,7 +54,7 @@ void	render_minimap(t_env *env, t_vec size)
 			if (map[vec.y][vec.x] == '0')		
 				draw_rectangle(env, (t_rectangle){vec.x * dX, vec.y * dY, dX, dY, 39424}, 1);
 			else if (map[vec.y][vec.x] == '1')
-				draw_rectangle(env, (t_rectangle){vec.x * dX, vec.y * dY, dX, dY, 11885067}, 1);
+				draw_rectangle(env, (t_rectangle){vec.x * dX, vec.y * dY, dX, dY, 9539977}, 1);
 			vec.x++;
 		}
 		vec.y++;
@@ -70,66 +63,59 @@ void	render_minimap(t_env *env, t_vec size)
 		env->playerPos.x * dX - dX / 4, env->playerPos.y * dY - dY / 4,
 		dX / 2, dY / 2, 255}, 0);
 }
-
-
-double	calculate_dist(t_env *env, t_raycast rc)
+void	render_view(t_env* env)
 {
+	double	camX;
 	int	side;
-
-	while (1)
-	{
-		side = 0;
-		if (rc.sDist[0] > rc.sDist[1])
-			side++;
-		rc.sDist[side] += rc.dDist[side];
-		rc.cell[side] += rc.step[side];
-		if (env->map[rc.cell[1]][rc.cell[0]] > '0')
-			return (rc.sDist[side] - rc.dDist[side]);
-	}
-}
-
-double	get_wall_dist(t_env *env, int x)
-{
-	double		camX;
 	t_raycast	rc;
-
-	camX = 2 * x / (double)WIN_X_SZ - 1;
-	set_vec(&rc.vec, env->playerDir.x + env->camPlan.x * camX,
-		env->playerDir.y + env->camPlan.y * camX);
-	rc.cell[0] = (int)(env->playerPos.x);
-	rc.cell[1] = (int)(env->playerPos.y);
-	if (rc.vec.x == 0)
-		rc.dDist[0] = 1e30;
-	else
-		rc.dDist[0] = fabs(1 / rc.vec.x);
-	if (rc.vec.y == 0)
-		rc.dDist[1] = 1e30;
-	else
-		rc.dDist[1] = fabs(1 / rc.vec.y);
-	rc.step = (int[2]){0, 0};
-	if (rc.vec.x < 0 && --rc.step[0])
-		rc.sDist[0] = (env->playerPos.x - rc.cell[0]) * rc.dDist[0];
-	else if (++rc.step[0])
-		rc.sDist[0] = (rc.cell[0] + 1.0 - env->playerPos.x) * rc.dDist[0];
-	if (rc.vec.y < 0 && --rc.step[1])
-		rc.sDist[1] = (env->playerPos.y - rc.cell[1]) * rc.dDist[1];
-	else if (++rc.step[1])
-		rc.sDist[1] = (rc.cell[1] + 1.0 - env->playerPos.y) * rc.dDist[1];
-	return (calculate_dist(env, rc));
-}
-
-void render_view(t_env *env)
-{
 	int	x;
-	double	wallDist;
 	int		startEnd[2];
 	int		lineHeight;
-	
+
 	x = 0;
 	while (x < WIN_X_SZ)
 	{
-		wallDist = get_wall_dist(env, x);
-		lineHeight = (int)(WIN_Y_SZ / wallDist);
+		ft_bzero(&rc, sizeof(rc));
+		camX = 2 * x / (double)WIN_X_SZ - 1;
+		set_vec(&rc.vec, env->playerDir.x + env->camPlan.x * camX,
+			env->playerDir.y + env->camPlan.y * camX);
+		rc.cell = (int[2]){env->playerPos.x, env->playerPos.y};
+		if (rc.vec.x == 0)
+			rc.dDist[0] = 1e30;
+		else
+			rc.dDist[0] = fabs(1 / rc.vec.x);
+		if (rc.vec.y == 0)
+			rc.dDist[1] = 1e30;
+		else
+			rc.dDist[1] = fabs(1 / rc.vec.y);
+		rc.step = (int[2]){0, 0};
+		if (rc.vec.x < 0 && --rc.step[0])
+			rc.sDist[0] = (env->playerPos.x - rc.cell[0]) * rc.dDist[0];
+		else if (++rc.step[0])
+			rc.sDist[0] = (rc.cell[0] + 1.0 - env->playerPos.x) * rc.dDist[0];
+		if (rc.vec.y < 0 && --rc.step[1])
+			rc.sDist[1] = (env->playerPos.y - rc.cell[1]) * rc.dDist[1];
+		else if (++rc.step[1])
+			rc.sDist[1] = (rc.cell[1] + 1.0 - env->playerPos.y) * rc.dDist[1];
+		while (1)
+		{
+			side = 0;
+			if (rc.sDist[0] > rc.sDist[1])
+				side++;
+			rc.cell[side] += rc.step[side];
+			if (env->map[rc.cell[1]][rc.cell[0]] > '0')
+			{
+				rc.face = 3 - side * 2 - (rc.step[side] + 1) / 2;
+				if (!side)
+					rc.wallX= env->playerPos.y + rc.sDist[side] * rc.vec.y;
+				else
+					rc.wallX = env->playerPos.x + rc.sDist[side] * rc.vec.x;
+				rc.wallX -= floor(rc.wallX);
+				break ;
+			}
+			rc.sDist[side] += rc.dDist[side];
+		}
+		lineHeight = (int)(WIN_Y_SZ / rc.sDist[side]);
 		if (lineHeight < 0)
 			lineHeight = 0;
 		startEnd[0] = -lineHeight / 2 + WIN_Y_SZ / 2;
@@ -138,20 +124,38 @@ void render_view(t_env *env)
 		startEnd[1] = lineHeight / 2 + WIN_Y_SZ / 2;
 		if(startEnd[1] >= WIN_Y_SZ)
 			startEnd[1] = WIN_Y_SZ - 1;
-		draw_vert(env, x, startEnd, 11885067);
+			
+		int	texHeight = env->wall[rc.face].height;
+		draw_rectangle(env, (t_rectangle){x, 0, 1, startEnd[0], env->ceilColor}, 0);
+		//draw_rectangle(env, (t_rectangle){x, startEnd[0], 1, startEnd[1] - startEnd[0] - 1, color}, 0);
+			//int	texY = (int)(y * env->wall[rc.face].height / (startEnd[1] - startEnd[0]));
+			int	texX = (int)(rc.wallX * (double)env->wall[rc.face].width);
+			if(rc.face >= 2 && rc.vec.x > 0) 
+				texX = env->wall[rc.face].width - texX - 1;
+			if(rc.face < 2 && rc.vec.y < 0) 
+				texX = env->wall[rc.face].width - texX - 1;
+			double step = 1.0 * texHeight / lineHeight;
+			// ---
+			double texPos = (startEnd[0] - WIN_Y_SZ / 2 + lineHeight / 2) * step;
+		  for(int y = startEnd[0]; y<startEnd[1]; y++)
+		  {
+			int texY = (int)texPos & (texHeight - 1);
+			texPos += step;
+			env->buffer[env->line_bytes * y + x] \
+				= env->wall[rc.face].buffer[texHeight * texY + texX];
+		  }
+		draw_rectangle(env, (t_rectangle){x, startEnd[1], 1, WIN_Y_SZ - startEnd[1], env->floorColor}, 0);
+
 		x++;
 	}
 }
 
 void	render(t_env *env)
 {
-	env->img = mlx_new_image(env->mlx, WIN_X_SZ, WIN_Y_SZ);
-	env->buffer = (int *)mlx_get_data_addr(env->img, \
-		&env->pixel_bits, &env->line_bytes, &env->endian);
-	env->line_bytes /= 4;
+	bzero(env->buffer, WIN_Y_SZ * WIN_X_SZ * sizeof(int));
+
 	render_view(env);
 	if (env->minimap)
 		render_minimap(env, (t_vec){env->wide * 8, env->deep * 8});
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
-	mlx_destroy_image(env->mlx, env->img);
 }

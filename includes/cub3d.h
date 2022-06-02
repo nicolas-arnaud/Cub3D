@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 19:55:25 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/02 14:22:08 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,26 +61,35 @@ typedef struct s_rectangle
 	int color;
 }	t_rectangle;
 
-typedef struct s_control
-{
-	int	up;
-	int	down;
-	int	left;
-	int	right;
-}	t_control;
-
 typedef struct s_raycast
 {
 	t_vec_d	vec;
-	int		cell[2];
+	int		*cell;
 	double	sDist[2];
 	double	dDist[2];
 	int		*step;	
-	
+	int		face;
+	double	dist;
+	double	wallX;
 }	t_raycast;
+
+typedef struct s_img
+{
+	char	*file;
+	int		*img;
+	int		width;
+	int		height;
+	int		*buffer;
+	int		pixel_bits;
+	int		line_bytes;
+	int		endian;
+
+}	t_img;
 
 typedef struct s_env
 {
+	long	tick;
+	int		debug;
 	void	*mlx;
 	void	*win;
 	void	*img;
@@ -88,9 +97,9 @@ typedef struct s_env
 	int		line_bytes;
 	int		endian;
 	int		*buffer;
+	t_img	wall[4];
 	int		minimap;
 	int		controls[KEYS_LIMIT];
-	char	*wallTexture[4];
 	int		floorColor;
 	int		ceilColor;
 	char	**map;

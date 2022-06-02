@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 20:43:21 by bledda            #+#    #+#             */
-/*   Updated: 2022/06/01 14:58:39 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/02 07:49:04 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@
 #  define KEY_SHFT 257
 #  define KEY_CTRL 256
 #  define KEY_SPACE 49
+#  define KEY_F1 122
 # endif
 
 #endif

@@ -10,7 +10,10 @@ CUBE3D
 - [Tester & maps](https://github.com/MichelleJiam/cub3D_tester)
 
 ## Issues:
-- Distances increase while time pass.
+
+
+## Memo:
+- ToDo: add F1 keycode on linux
 
 ## Program life cycle :
 ### Parsing
@@ -21,7 +24,7 @@ CUBE3D
 - [x] comvert list to 2D array.
 - [x] save player pos,
 - [ ] handle errors,
-	- [-] not closed map
+	- [x] not closed map
 	- [ ] texture files not exist, not permited or with wrong extension
 	- [ ] impossible color used
 	- [-] missing map
@@ -29,15 +32,17 @@ CUBE3D
 ### Window
 ### Render
 - [x] display ceil, walls and floor
-- [ ] display wall's texture
+- [x] display wall's texture
 ### Control
 - [x] enable commands
 	- [x] wasd to move
-- [ ] react to commands :
+- [o] react to commands :
 	- [x] calculate new pos,
 	- [x] display new view,
 	- [x] avoid colisions
 	- [x] M to show minimap
 	- [x] SHIFT to run
+	- [-] Debugs window with F1
+	- [x] Exit with Esc and X 
 ### Quit 
 - [ ] clean and exit

@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 18:23:37 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/02 12:34:56 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 int	cleanup_datas(t_env *env)
 {
 
-	if (env->wallTexture[0])
-		free(env->wallTexture[0]);
-	if (env->wallTexture[1])
-		free(env->wallTexture[1]);
-	if (env->wallTexture[2])
-		free(env->wallTexture[2]);
-	if (env->wallTexture[3])
-		free(env->wallTexture[3]);
+	if (env->wall[0].file)
+		free(env->wall[0].file);
+	if (env->wall[1].file)
+		free(env->wall[1].file);
+	if (env->wall[2].file)
+		free(env->wall[2].file);
+	if (env->wall[3].file)
+		free(env->wall[3].file);
 	return (1);
 }
 
@@ -34,13 +34,13 @@ void	register_settings(int *progress, t_env *env, char *line)
 	if (!elem[0] || !elem[1])
 		return ;
 	if (!ft_strncmp(elem[0],"NO", 3))
-		env->wallTexture[0] = ft_strtrim(elem[1], "\n");
+		env->wall[0].file = ft_strtrim(elem[1], "\n");
 	else if (!ft_strncmp(elem[0],"SO", 3))
-		env->wallTexture[1] = ft_strtrim(elem[1], "\n");
+		env->wall[1].file = ft_strtrim(elem[1], "\n");
 	else if (!ft_strncmp(elem[0],"WE", 3))
-		env->wallTexture[2] = ft_strtrim(elem[1], "\n");
+		env->wall[2].file = ft_strtrim(elem[1], "\n");
 	else if (!ft_strncmp(elem[0],"EA", 3))
-		env->wallTexture[3] = ft_strtrim(elem[1], "\n");
+		env->wall[3].file = ft_strtrim(elem[1], "\n");
 	else if (!ft_strncmp(elem[0],"F", 2))
 		env->floorColor = rgb_to_int(elem);
 	else if (!ft_strncmp(elem[0],"C", 2))
@@ -114,7 +114,7 @@ int	init_player(t_env *env, int x, int y)
 
 	orientation = env->map[y][x];
 	env->map[y][x] = '0';
-	set_vec(&env->playerPos, x, y);
+	set_vec(&env->playerPos, x + 0.5, y + 0.5);
 	if (orientation == 'N')
 		set_vec(&env->playerDir, 0, -1);
 	else if (orientation == 'S')
@@ -122,7 +122,7 @@ int	init_player(t_env *env, int x, int y)
 	else if (orientation == 'E')
 		set_vec(&env->playerDir, 1, 0);
 	else if (orientation == 'W')
-		set_vec(&env->playerDir, -1, -1);
+		set_vec(&env->playerDir, -1, 0);
 	env->camPlan = rot_vec(env->playerDir, M_PI / 2, 0.66);
 	return (1);
 
