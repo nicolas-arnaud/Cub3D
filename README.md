@@ -10,11 +10,19 @@ CUBE3D
 - [Tester & maps](https://github.com/MichelleJiam/cub3D_tester)
 
 ## Issues:
-
+- report invalid mapfile:
+	- wrong extension,
+	- unacessible file (wrong permission, directory, missin name)
+	- 
+	- invalid color : Ci > 255, Ci < 0, i > 4
+	- invalid texture (wrong permission, missing wall orientation texture, missing used block texture (warning + use default unknow texture))
+	- empty line in map description,
+	- unauthorized character in map description (!isdigt)
+	- 
 
 ## Memo:
-- ToDo: add F1 keycode on linux
-
+- ToDo: add F1 keycode on linux,
+- Add toggle for mouse control,
 ## Program life cycle :
 ### Parsing
 - [x] read file,

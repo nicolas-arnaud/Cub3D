@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 20:43:21 by bledda            #+#    #+#             */
-/*   Updated: 2022/06/02 07:49:04 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/03 12:02:57 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@
 #  define KEY_SHFT 65505
 #  define KEY_CTRL 65507
 #  define KEY_SPACE 32
+#  define KEY_F1 65470
 # elif __APPLE__
 #  define KEYS_LIMIT 300
 #  define KEY_Q 12

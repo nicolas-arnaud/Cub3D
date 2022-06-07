@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:22:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/02 17:35:19 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/03 13:20:27 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ int	main(int argc, char **argv)
 	if (DEBUG)
 	{
 		printf("\e[1;32m========> WALLS <========\e[0m\nNorth: %s\nSouth: %s\nWest: %s\nEast: %s\n",\
-				env->wall[0].file, env->wall[1].file,\
-				env->wall[2].file, env->wall[3].file);
+				env->tex[0].file, env->tex[1].file,\
+				env->tex[2].file, env->tex[3].file);
 		printf("\e[1;32m========================\e[0m\n");
 		printf("=> Floor color: %d\n=> Ceil color: %d\n", env->floorColor, env->ceilColor);
 		printf("\e[1;32m========> MAP <========\e[0m\n");
@@ -51,13 +51,13 @@ int	main(int argc, char **argv)
 	}
 	init_window(env);
 	y = 0;
-	while (y < 4)
+	while (y < 5)
 	{
-		env->wall[y].img = mlx_xpm_file_to_image(env->mlx,
-			env->wall[y].file, &env->wall[y].width, &env->wall[y].height);
-		env->wall[y].buffer = (int *)mlx_get_data_addr(env->wall[y].img, \
-			&env->wall[y].pixel_bits, &env->wall[y].line_bytes, &env->wall[y].endian);
-		env->wall[y].line_bytes /= 4;
+		env->tex[y].img = mlx_xpm_file_to_image(env->mlx,
+			env->tex[y].file, &env->tex[y].width, &env->tex[y].height);
+		env->tex[y].buffer = (int *)mlx_get_data_addr(env->tex[y].img, \
+			&env->tex[y].pixel_bits, &env->tex[y].line_bytes, &env->tex[y].endian);
+		env->tex[y].line_bytes /= 4;
 		y++;
 	}
 	env->img = mlx_new_image(env->mlx, WIN_X_SZ, WIN_Y_SZ);

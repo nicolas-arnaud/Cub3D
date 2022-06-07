@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/02 17:24:53 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/03 13:17:47 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct s_raycast
 	double	sDist[2];
 	double	dDist[2];
 	int		*step;	
-	int		face;
+	int		tex;
 	double	dist;
 	double	wallX;
 }	t_raycast;
@@ -97,7 +97,7 @@ typedef struct s_env
 	int		line_bytes;
 	int		endian;
 	int		*buffer;
-	t_img	wall[4];
+	t_img	tex[5];
 	int		minimap;
 	int		controls[KEYS_LIMIT];
 	int		mouseX;
