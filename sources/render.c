@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 09:33:02 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/07 08:22:49 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/06/07 09:22:47 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	render_view(t_env* env)
 			mapVal = env->map[rc.cell[1]][rc.cell[0]];
 			if (mapVal > '0')
 			{
-				if (mapVal == '2' && vec_len((t_vec_d){rc.cell[0] - env->playerPos.x, rc.cell[1] - env->playerPos.y}) > 3)
+				if (mapVal == '2' && rc.tex != 4)
 						rc.tex = 4;
 				else if (mapVal == '1')
 					rc.tex = 3 - side * 2 - (rc.step[side] + 1) / 2;
@@ -118,15 +118,22 @@ void	render_view(t_env* env)
 					rc.sDist[side] += rc.dDist[side];
 					continue ;
 				}
+				if (!side)
+					rc.wallX= env->playerPos.y + rc.sDist[side] * rc.vec.y;
+				else
+					rc.wallX = env->playerPos.x + rc.sDist[side] * rc.vec.x;
+				rc.wallX -= floor(rc.wallX);
+				if (rc.tex == 4 && 2 * rc.wallX - vec_len((t_vec_d){rc.cell[0] - env->playerPos.x, rc.cell[1] - env->playerPos.y}) > -2)
+				{
+					rc.sDist[side] += rc.dDist[side];
+					continue;
+				}
 				break ;
 			}
+			else
+				rc.tex = 0;
 			rc.sDist[side] += rc.dDist[side];
 		}
-		if (!side)
-			rc.wallX= env->playerPos.y + rc.sDist[side] * rc.vec.y;
-		else
-			rc.wallX = env->playerPos.x + rc.sDist[side] * rc.vec.x;
-		rc.wallX -= floor(rc.wallX);
 		lineHeight = (int)(WIN_Y_SZ / rc.sDist[side]);
 		if (lineHeight < 0)
 			lineHeight = 0;
