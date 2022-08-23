@@ -5,34 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/31 08:59:01 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/01 18:18:37 by narnaud          ###   ########.fr       */
+/*   Created: 2022/08/23 09:29:26 by narnaud           #+#    #+#             */
+/*   Updated: 2022/08/23 16:21:21 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
-
-double	vec_len(t_vec_d vec)
-{
-	return (sqrt(vec.x * vec.x + vec.y * vec.y));
-}
-
-void	set_vec(t_vec_d *vec, double x, double y)
-{
-	vec->x = x;
-	vec->y = y;
-}
-
-t_vec_d	rot_vec(t_vec_d vec, double rad, double init_len)
-{
-	double	len;
-	t_vec_d	ret;
-
-	len = vec_len(vec);
-	ret.x = (cos(rad) * vec.x - sin(rad) * vec.y) * init_len / len;
-	ret.y = (sin(rad) * vec.x + cos(rad) * vec.y) * init_len / len;
-	return (ret);
-}
+#include "../../includes/cub3d.h"
 
 int	rgb_to_int(char	**rgb)
 {
@@ -49,17 +27,12 @@ int	rgb_to_int(char	**rgb)
 	while (c < 3)
 	{
 		if (colors[i])
-		{
-			ret |= ft_atoi(colors[i]) << (8 * (2 - c));
-			c++;
-			i++;
-		}
+			ret |= ft_atoi(colors[i++]) << (8 * (2 - c++));
 		else
 		{
 			ft_free_split(colors);
-			rgb++;
 			i = 0;
-			colors = ft_split(*rgb, ',');
+			colors = ft_split(*(++rgb), ',');
 		}
 	}
 	ft_free_split(colors);

@@ -6,7 +6,7 @@
 /*   By: bledda <bledda@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/10 20:43:21 by bledda            #+#    #+#             */
-/*   Updated: 2022/06/03 12:02:57 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/08/23 16:24:53 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@
 #  define KEY_M 109
 #  define KEY_ECHAP 65307
 #  define KEY_ENTER 65293
-#  define KEY_ARROW_LEFT 65361
-#  define KEY_ARROW_RIGHT 65363
-#  define KEY_ARROW_DOWN 65364
-#  define KEY_ARROW_UP 65362
+#  define KEY_LEFT 65361
+#  define KEY_RIGHT 65363
+#  define KEY_DOWN 65364
+#  define KEY_UP 65362
 #  define KEY_DELETE 65288
 #  define KEY_0 48
 #  define KEY_1 49
@@ -94,10 +94,10 @@
 #  define KEY_M 46
 #  define KEY_ECHAP 53
 #  define KEY_ENTER 36
-#  define KEY_ARROW_LEFT 123
-#  define KEY_ARROW_RIGHT 124
-#  define KEY_ARROW_DOWN 125
-#  define KEY_ARROW_UP 126
+#  define KEY_LEFT 123
+#  define KEY_RIGHT 124
+#  define KEY_DOWN 125
+#  define KEY_UP 126
 #  define KEY_DELETE 51
 #  define KEY_0 29
 #  define KEY_1 18

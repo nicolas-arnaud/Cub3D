@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/06/03 13:17:47 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/08/23 16:40:10 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,7 @@
 
 # define WIN_X_SZ	1760
 # define WIN_Y_SZ	900
-
 # define BUFFER_SIZE 4096
-# define UNIT 200
-# define WALL_HEIGHT 200
-# define PLAYER_HEIGHT 170
-# define SCREEN_DISTANCE 50
 
 # include <unistd.h>
 # include <stdio.h>
@@ -32,11 +27,11 @@
 # include <errno.h>
 # include <string.h>
 # include <math.h>
-# include "../includes/libft.h"
+# include "libft.h"
 # ifdef __linux__
-#  include "../includes/mlx.h"
+#  include "mlx.h"
 # elif __APPLE__
-#  include <mlx.h>
+#  include "mlxmac.h"
 # endif
 # include "mlx_keycode.h"
 
@@ -50,28 +45,28 @@ typedef struct s_vector_d
 {
 	double	x;
 	double	y;
-}	t_vec_d;
+}	t_dvec;
 
 typedef struct s_rectangle
 {
-	int startX;
-	int startY;
-	int	sizeX;
-	int sizeY;
-	int color;
-}	t_rectangle;
+	t_vec	start;
+	t_vec	size;
+	int 	color;
+}	t_rect;
 
 typedef struct s_raycast
 {
-	t_vec_d	vec;
+	t_dvec	vec;
 	int		*cell;
 	double	sDist[2];
 	double	dDist[2];
 	int		*step;	
+	int		side;
 	int		tex;
 	double	dist;
 	double	wallX;
-}	t_raycast;
+	int		x;
+}	t_rc;
 
 typedef struct s_img
 {
@@ -106,15 +101,22 @@ typedef struct s_env
 	char	**map;
 	int		wide;
 	int		deep;
-	t_vec_d	playerPos;
-	t_vec_d	playerDir;
-	t_vec_d	camPlan;
+	t_dvec	playerPos;
+	t_dvec	playerDir;
+	t_dvec	camPlan;
 }	t_env;
 
+// Render
+void	check_side(t_rc *rc);
+void	init_ray(t_env *env, t_rc *rc);
+int		ray_hit(t_env *env, t_rc *rc);
+void	draw_rectangle(t_env *env, t_rect rect, int borders);
+t_rect	get_mm_cell(char type, t_vec pos, t_vec delta);
 void	render_minimap(t_env *env, t_vec size);
 void	render_view(t_env *env);
 void	render(t_env *env);
 
+// Hooks
 int		key_press_hook(int keycode, t_env *env);
 int		key_release_hook(int keycode, t_env *env);
 int		mouse_down_hook(int buton, int x, int y, t_env *env);
@@ -122,12 +124,19 @@ int		mouse_move_hook(int x, int y, t_env *env);
 int		mouse_up_hook(int buton, int x, int y, t_env *env);
 int		update_hook(t_env *env);
 
-int		rgb_to_int(char	**rgb);
-void	set_vec(t_vec_d *vec, double x, double y);
-double	vec_len(t_vec_d vec);
-t_vec_d	rot_vec(t_vec_d vec, double rad, double init_len);
+// Utils
+void	vec_set(t_vec *vec, int x, int y);
+t_vec	vec_mult(t_vec v1, t_vec v2);
+void	dvec_set(t_dvec *vec, double x, double y);
+double	dvec_len(t_dvec vec);
+t_dvec	dvec_rot(t_dvec vec, double rad, double init_len);
 
-t_env	*parse_envFile(char *filename);
+// Parsing
+int		rgb_to_int(char	**rgb);
+char	**create_map_array(t_slist	*e_lst, int wide, int deep);
+int		is_in_open_room(t_env *env, int x, int y);
+int		find_player(t_env *env);
+t_env	*parse_file(char *filename);
 char	*get_next_line(int fd);
 
 #endif

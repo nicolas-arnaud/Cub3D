@@ -1,19 +1,20 @@
-/* ************************************************************************** */ /*                                                                            */
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   getline.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 21:23:40 by narnaud           #+#    #+#             */
-/*   Updated: 2022/05/21 22:51:16 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/08/23 16:34:20 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 char	*save_buffer(char *buffer, int *i)
 {
-	int 	j;
+	int		j;
 	char	*part1;
 	char	*part2;
 	char	*ret;
@@ -33,14 +34,16 @@ char	*save_buffer(char *buffer, int *i)
 	return (ret);
 }
 
-char *get_next_line(int fd)
+/* TODO:
+ * check leaks
+ */
+char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
 	static int	i;
 	ssize_t		read_size;
 	char		*line;
 	char		*ret;
-
 
 	if (!*buffer)
 	{
@@ -51,8 +54,7 @@ char *get_next_line(int fd)
 	while (buffer[i])
 	{
 		line = ft_strjoin(ret, save_buffer(buffer, &i));
-		free(ret);
-		ret = line;
+		ret = (free(ret), line);
 		if (buffer[i - 1] == '\n')
 			break ;
 		read_size = read(fd, buffer, BUFFER_SIZE);
@@ -61,6 +63,5 @@ char *get_next_line(int fd)
 	}
 	if (*ret)
 		return (ret);
-	free(ret);
-	return (NULL);
+	return (free(ret), NULL);
 }

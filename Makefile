@@ -2,8 +2,10 @@ NAME	=	cub3d
 LIBFT	=	libft.a
 MLX		=   includes/mlx.h
 
-SRCS	=	sources/main.c sources/parsing.c sources/getline.c sources/utils.c
-SRCS	+=	sources/render.c sources/hooks.c
+
+SRCS	=	src/main.c src/hooks.c src/utils.c
+SRCS	+=	src/parsing/parsing.c src/parsing/getline.c src/parsing/map.c src/parsing/utils.c
+SRCS	+=	src/render/render.c src/render/minimap.c src/render/utils.c src/render/raycast.c
 OBJS	=	${SRCS:.c=.o}
 
 CC		=	gcc
@@ -14,7 +16,7 @@ ifeq ($(UNAME_S), Linux)
 	LFLAGS	=	-L ./mlx -lmlx_Linux -lXext -lX11 -lm -lz -L. -lft
 endif
 ifeq ($(UNAME_S), Darwin)
-	LFLAGS	=	-lmlx -framework OpenGL -framework AppKit -L. -lft
+	LFLAGS	= -framework OpenGL -framework AppKit -L. -lft -lmlxmac
 endif
 CFLAGS	=	-Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
 	
@@ -35,12 +37,12 @@ $(MLX):
 
 $(NAME):	$(LIBFT) $(MLX) $(OBJS)
 			echo Making Cub3D...
-			${CC}  ${OBJS} -o ${NAME} ${LFLAGS}
+			${CC}  ${OBJS} ${LFLAGS} -o ${NAME} 
 			echo ✅
 
 debug:		$(LIBFT)
 			echo Making Cub3D with debug on...
-			${CC} ${SRCS} -g -D DEBUG=1 ${CFLAGS} ${LFLAGS} -o ${NAME}
+			${CC} ${SRCS} -g -fsanitize=address -D DEBUG=1 ${CFLAGS} ${LFLAGS} -o ${NAME}
 			echo ✅
 
 clean:
