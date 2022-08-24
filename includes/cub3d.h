@@ -13,10 +13,6 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# ifndef DEBUG
-#  define DEBUG 0
-# endif
-
 # define WIN_X_SZ	1760
 # define WIN_Y_SZ	900
 # define BUFFER_SIZE 4096
@@ -83,8 +79,6 @@ typedef struct s_img
 
 typedef struct s_env
 {
-	long	tick;
-	int		debug;
 	void	*mlx;
 	void	*win;
 	void	*img;

@@ -47,7 +47,7 @@ void	render_minimap(t_env *env, t_vec size)
 		pos.y++;
 	}
 	draw_rectangle(env, (t_rect){\
-		(t_vec){env->playerPos.x * delt.x - delt.x / 4, \
-		env->playerPos.y * delt.y - delt.y / 4}, \
-		(t_vec){delt.x / 2, delt.y / 2}, 0x0000FF}, 0);
+		(t_vec){env->playerPos.x * delt.x - delt.x / 4.0, \
+		env->playerPos.y * delt.y - delt.y / 4.0}, \
+		(t_vec){delt.x / 2, delt.y / 2}, 0xFF0000}, 0);
 }

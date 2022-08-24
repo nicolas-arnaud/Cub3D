@@ -83,21 +83,26 @@ t_slist	*read_map_line(t_env *env, char *line)
 	return (ret);
 }
 
+int	is_valid(t_env *env)
+{
+	if (!find_player(env)
+		|| is_in_open_room(env, env->playerPos.x, env->playerPos.y))
+	{
+		printf("Error: You are using an invalid map.\n");
+		return (0);
+	}
+	return (1);
+}
+
 t_env	*parse_file(char *filename)
 {
-	int		fd;
-	char	*line;
-	int		progress;
-	t_slist	*e_map;
-	t_env	*ret;
+	int				fd;
+	char			*line;
+	static int		progress;
+	static t_slist	*e_map;
+	t_env			*ret;
 
-	progress = 0;
-	e_map = NULL;
 	ret = ft_calloc(1, sizeof(t_env));
-	ret->deep = 0;
-	ret->wide = 0;
-	ret->mouseX = 0;
-	ret->debug = DEBUG;
 	fd = open(filename, O_RDONLY);
 	line = get_next_line(fd);
 	while (line)
@@ -111,14 +116,8 @@ t_env	*parse_file(char *filename)
 	}
 	if (progress < 7 && cleanup_datas(ret))
 		return (NULL);
-	else
-		ret->map = create_map_array(e_map, ret->wide, ret->deep);
-	if ((!find_player(ret) \
-		|| is_in_open_room(ret, ret->playerPos.x, ret->playerPos.y)) \
-		&& cleanup_datas(ret))
-	{
-		printf("Error: You are using an open map.");
+	ret->map = create_map_array(e_map, ret->wide, ret->deep);
+	if (!is_valid(ret) && cleanup_datas(ret))
 		return (NULL);
-	}
 	return (ret);
 }

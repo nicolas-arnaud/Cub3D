@@ -2,6 +2,7 @@ NO ./textures/wood.xpm
 EA ./textures/colorstone.xpm
 SO ./textures/wood.xpm
 WE ./textures/wood.xpm
+DO ./textures/wood.xpm
 
 F 0, 156, 8
 C 27, 210, 227

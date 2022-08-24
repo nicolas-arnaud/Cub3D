@@ -34,7 +34,7 @@ void	draw_wall(t_env *env, t_rc *rc, int wallHeight, int *wall_lim)
 	if ((!rc->side && rc->vec.x > 0) || (rc->side && rc->vec.y < 0))
 		tex.x = env->tex[rc->tex].width - tex.x - 1;
 	step = 1.0 * tex_height / wallHeight;
-	y_out = (wall_lim[0] - WIN_Y_SZ / 2 + wallHeight / 2) * step;
+	y_out = (wall_lim[0] - WIN_Y_SZ / 2.0 + wallHeight / 2.0) * step;
 	while (wall_lim[0] < wall_lim[1])
 	{
 		tex.y = (int)y_out & (tex_height - 1);

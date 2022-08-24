@@ -3,7 +3,7 @@ LIBFT	=	libft.a
 MLX		=   includes/mlx.h
 
 
-SRCS	=	src/main.c src/hooks.c src/utils.c
+SRCS	=	src/main.c src/hooks.c src/vectors.c
 SRCS	+=	src/parsing/parsing.c src/parsing/getline.c src/parsing/map.c src/parsing/utils.c
 SRCS	+=	src/render/render.c src/render/minimap.c src/render/utils.c src/render/raycast.c
 OBJS	=	${SRCS:.c=.o}
@@ -16,7 +16,7 @@ ifeq ($(UNAME_S), Linux)
 	LFLAGS	=	-L ./mlx -lmlx_Linux -lXext -lX11 -lm -lz -L. -lft
 endif
 ifeq ($(UNAME_S), Darwin)
-	LFLAGS	= -framework OpenGL -framework AppKit -L. -lft -lmlxmac
+	LFLAGS	= -L ./mlx -lmlx -framework OpenGL -framework AppKit -L. -lft
 endif
 CFLAGS	=	-Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
 	
