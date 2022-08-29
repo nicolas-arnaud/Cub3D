@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/23 16:40:10 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/08/25 11:09:34 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,13 +110,15 @@ void	render_minimap(t_env *env, t_vec size);
 void	render_view(t_env *env);
 void	render(t_env *env);
 
-// Hooks
+// MLX
 int		key_press_hook(int keycode, t_env *env);
 int		key_release_hook(int keycode, t_env *env);
 int		mouse_down_hook(int buton, int x, int y, t_env *env);
 int		mouse_move_hook(int x, int y, t_env *env);
 int		mouse_up_hook(int buton, int x, int y, t_env *env);
 int		update_hook(t_env *env);
+void	init_window(t_env *nv);
+void	init_game(t_env *env);
 
 // Utils
 void	vec_set(t_vec *vec, int x, int y);

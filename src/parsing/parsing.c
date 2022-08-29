@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/23 16:42:35 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/08/25 11:25:38 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_env	*parse_file(char *filename)
 	{
 		if (*line && *line != '\n' && progress > 6 && progress++)
 			ft_slst_add_back(&e_map, read_map_line(ret, line));
-		else
+		else if (*line != '#')
 			register_settings(&progress, ret, line);
 		free(line);
 		line = get_next_line(fd);

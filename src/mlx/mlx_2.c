@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hooks.c                                            :+:      :+:    :+:   */
+/*   mlx_2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:47:30 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/23 16:27:20 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/08/25 14:18:26 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub3d.h"
+#include "../../includes/cub3d.h"
 
 int	key_press_hook(int keycode, t_env *env)
 {
@@ -26,19 +26,6 @@ int	key_press_hook(int keycode, t_env *env)
 int	key_release_hook(int keycode, t_env *env)
 {
 	env->controls[keycode] = 0;
-	return (1);
-}
-
-int	mouse_move_hook(int x, int y, t_env *env)
-{
-	int	dx;
-
-	(void)y;
-	dx = WIN_X_SZ / 2 - x;
-	if (dx)
-		env->playerDir = dvec_rot(env->playerDir,
-				(double)(-M_PI * dx / 1800.0), 1);
-	mlx_mouse_move(env->mlx, env->win, WIN_X_SZ / 2, WIN_Y_SZ / 2);
 	return (1);
 }
 

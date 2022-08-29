@@ -3,7 +3,8 @@ LIBFT	=	libft.a
 MLX		=   includes/mlx.h
 
 
-SRCS	=	src/main.c src/hooks.c src/vectors.c
+SRCS	=	src/main.c src/vectors.c
+SRCS	+=	src/mlx/mlx_1.c src/mlx/mlx_2.c
 SRCS	+=	src/parsing/parsing.c src/parsing/getline.c src/parsing/map.c src/parsing/utils.c
 SRCS	+=	src/render/render.c src/render/minimap.c src/render/utils.c src/render/raycast.c
 OBJS	=	${SRCS:.c=.o}
@@ -13,10 +14,10 @@ RM		=	rm -rf
 
 UNAME_S	:=	$(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	LFLAGS	=	-L ./mlx -lmlx_Linux -lXext -lX11 -lm -lz -L. -lft
+	LFLAGS	=	-lXext -lX11 -lm -lz -Llib -lft -lmlx_Linux
 endif
 ifeq ($(UNAME_S), Darwin)
-	LFLAGS	= -L ./mlx -lmlx -framework OpenGL -framework AppKit -L. -lft
+	LFLAGS	= -framework OpenGL -framework AppKit -Llib -lft -lmlx_Mac
 endif
 CFLAGS	=	-Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
 	
@@ -29,7 +30,7 @@ $(VERBOSE).SILENT:
 
 $(LIBFT):
 		${MAKE} -C libft/
-		cp libft/libft.a .
+		cp libft/libft.a ./lib/
 		cp libft/libft.h includes/
 
 $(MLX):

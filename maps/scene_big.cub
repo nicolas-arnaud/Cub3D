@@ -1,7 +1,11 @@
-NO ./textures/4.xpm
-EA ./textures/1.xpm
-SO ./textures/3.xpm
-WE ./textures/2.xpm
+#NO ./textures/4.xpm
+#EA ./textures/1.xpm
+#SO ./textures/3.xpm
+#WE ./textures/2.xpm
+NO ./textures/redbrick.xpm
+EA ./textures/greenbrick.xpm
+SO ./textures/greybrick.xpm
+WE ./textures/brownbrick.xpm
 DO ./textures/wood.xpm
 
 F 15, 100, 0
