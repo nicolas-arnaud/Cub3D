@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:22:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/25 09:28:42 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/14 10:39:10 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (EXIT_FAILURE);
-	env = parse_file(argv[1]);
+	env = load_map(argv[1]);
 	if (!env)
 		return (EXIT_FAILURE);
 	init_window(env);

@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/25 11:09:34 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/14 10:35:59 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int		rgb_to_int(char	**rgb);
 char	**create_map_array(t_slist	*e_lst, int wide, int deep);
 int		is_in_open_room(t_env *env, int x, int y);
 int		find_player(t_env *env);
-t_env	*parse_file(char *filename);
+t_env	*load_map(char *filename);
 char	*get_next_line(int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 09:30:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/23 16:38:17 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/08/30 16:05:29 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	**create_map_array(t_slist	*e_lst, int wide, int deep)
 	{
 		end_line = ft_calloc(wide - ft_strlen(e_lst->content) + 1,
 				sizeof(char));
-		end_line = memset(end_line,
+		end_line = memset(end_line, 
 				'0', wide - ft_strlen(e_lst->content) * sizeof(char));
 		ret[i] = ft_strjoin(e_lst->content, end_line);
 		free(end_line);
