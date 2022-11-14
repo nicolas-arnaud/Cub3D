@@ -24,7 +24,7 @@ int	rgb_to_int(char	**rgb)
 	i = 0;
 	ret = 0;
 	colors = ft_split(*rgb, ',');
-	while (c < 3 && rgb)
+	while (c < 3 && rgb && colors)
 	{
 		if (!colors[i])
 		{
@@ -39,6 +39,6 @@ int	rgb_to_int(char	**rgb)
 			ret |= color << (8 * (2 - c++));
 	}
 	if (c < 3)
-		return (ft_free_split(colors), printf("Error:\nInvalid color.\n"), -1);
+		return (printf("Error:\nInvalid color.\n"), -1);
 	return (ft_free_split(colors), ret);
 }

@@ -28,8 +28,8 @@ CUBE3D
 - [x] save player pos,
 - [ ] handle errors,
 	- [x] not closed map
-	- [ ] texture files not exist, not permited or with wrong extension
-	- [ ] impossible color used
+	- [x] texture files not exist, not permited or with wrong extension
+	- [x] impossible color used
 	- [-] missing map
 ### Quit 
 - [ ] clean and exit

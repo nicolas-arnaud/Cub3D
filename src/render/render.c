@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 09:33:02 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/23 16:19:08 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/14 16:45:42 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ void	render(t_env *env)
 	bzero(env->buffer, WIN_Y_SZ * WIN_X_SZ * sizeof(int));
 	render_view(env);
 	if (env->minimap)
-		render_minimap(env, (t_vec){env->wide * 8, env->deep * 8});
+		render_minimap(env, (t_vec){WIN_X_SZ / 3, WIN_Y_SZ / 3});
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 }

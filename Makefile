@@ -14,12 +14,12 @@ RM		=	rm -rf
 
 UNAME_S	:=	$(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	LFLAGS	=	-lXext -lX11 -lm -lz -Llib -lft -lmlx_Linux
+	LFLAGS	= -lXext -lX11 -lm -lz -Llib -lft -lmlx_Linux
 endif
 ifeq ($(UNAME_S), Darwin)
 	LFLAGS	= -framework OpenGL -framework AppKit -Llib -lft -lmlx_Mac
 endif
-CFLAGS	=	-Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
+CFLAGS	=	-g -Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
 	
 %.o:%.c
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}

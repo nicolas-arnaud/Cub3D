@@ -2,11 +2,10 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mlx_1.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */ /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 14:14:46 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/25 14:18:18 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/14 16:28:51 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +22,7 @@ void	init_window(t_env *env)
 	env->mlx = mlx;
 	window = mlx_new_window(mlx, WIN_X_SZ, WIN_Y_SZ, "Cub3D");
 	env->win = window;
-	mlx_mouse_hide(mlx, win);
+	mlx_mouse_hide(mlx, window);
 }
 
 int	mouse_move_hook(int x, int y, t_env *env)
@@ -67,7 +66,7 @@ int	mouse_move_hook(int x, int y, t_env *env)
 }
 #endif
 
-void	init_game(t_env *env)
+int	init_game(t_env *env)
 {
 	int	y;
 
@@ -76,6 +75,8 @@ void	init_game(t_env *env)
 	{
 		env->tex[y].img = mlx_xpm_file_to_image(env->mlx,
 				env->tex[y].file, &env->tex[y].width, &env->tex[y].height);
+        if (env->tex[y].img == NULL)
+            return (printf("Error:\nCan't open a texture\n"), EXIT_FAILURE);
 		env->tex[y].buffer = (int *)mlx_get_data_addr(env->tex[y].img, \
 				&env->tex[y].pixel_bits,
 				&env->tex[y].line_bytes,
@@ -90,4 +91,5 @@ void	init_game(t_env *env)
 	mlx_hook(env->win, 2, 1L << 0, key_press_hook, env);
 	mlx_hook(env->win, 3, 1L << 1, key_release_hook, env);
 	mlx_hook(env->win, 6, 0L, mouse_move_hook, env);
+    return (EXIT_SUCCESS);
 }

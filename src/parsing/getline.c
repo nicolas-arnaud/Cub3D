@@ -44,6 +44,7 @@ char	*get_next_line(int fd)
 	ssize_t		read_size;
 	char		*line;
 	char		*ret;
+    char        *next;
 
 	if (!*buffer)
 	{
@@ -53,8 +54,10 @@ char	*get_next_line(int fd)
 	ret = ft_calloc(1, sizeof(char));
 	while (buffer[i])
 	{
-		line = ft_strjoin(ret, save_buffer(buffer, &i));
+        next = save_buffer(buffer, &i);
+		line = ft_strjoin(ret, next);
 		ret = (free(ret), line);
+        free(next);
 		if (buffer[i - 1] == '\n')
 			break ;
 		read_size = read(fd, buffer, BUFFER_SIZE);

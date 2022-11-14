@@ -33,16 +33,16 @@ void	register_settings(int *progress, t_env *env, char *line)
 
 	elem = ft_split(line, ' ');
 	if (!elem[0] || !elem[1])
-		return ;
-	if (!ft_strncmp(elem[0], "NO", 3))
+		return (ft_free_split(elem));
+	if (!env->tex[0].file && !ft_strncmp(elem[0], "NO", 3))
 		env->tex[0].file = ft_strtrim(elem[1], "\n");
-	else if (!ft_strncmp(elem[0], "SO", 3))
+	else if (!env->tex[1].file && !ft_strncmp(elem[0], "SO", 3))
 		env->tex[1].file = ft_strtrim(elem[1], "\n");
-	else if (!ft_strncmp(elem[0], "WE", 3))
+	else if (!env->tex[2].file && !ft_strncmp(elem[0], "WE", 3))
 		env->tex[2].file = ft_strtrim(elem[1], "\n");
-	else if (!ft_strncmp(elem[0], "EA", 3))
+	else if (!env->tex[3].file && !ft_strncmp(elem[0], "EA", 3))
 		env->tex[3].file = ft_strtrim(elem[1], "\n");
-	else if (!ft_strncmp(elem[0], "DO", 3))
+	else if (!env->tex[4].file && !ft_strncmp(elem[0], "DO", 3))
 		env->tex[4].file = ft_strtrim(elem[1], "\n");
 	else if (!ft_strncmp(elem[0], "F", 2))
 		env->floorColor = rgb_to_int(elem + 1);
@@ -117,7 +117,7 @@ t_env	*load_map(char *filename)
 		line = get_next_line(fd);
 	}
 	if (progress < 7 && cleanup_datas(env))
-		return (NULL);
+		return (printf("Error\nYour map isn't valid.\n"), NULL);
 	env->map = create_map_array(e_map, env->wide, env->deep);
 	if (!is_valid_map(env) && cleanup_datas(env))
 		return (NULL);

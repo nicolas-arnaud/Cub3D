@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/14 10:35:59 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/14 16:33:15 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int		mouse_move_hook(int x, int y, t_env *env);
 int		mouse_up_hook(int buton, int x, int y, t_env *env);
 int		update_hook(t_env *env);
 void	init_window(t_env *nv);
-void	init_game(t_env *env);
+int	    init_game(t_env *env);
 
 // Utils
 void	vec_set(t_vec *vec, int x, int y);
