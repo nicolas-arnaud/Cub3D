@@ -18,6 +18,8 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		return (printf("Usage: ./cub3d mapfile.cub\n"), EXIT_FAILURE);
+	if (ft_strncmp(argv[1] + ft_strlen(argv[1]) - 4, ".cub", 4))
+		return (printf("Wrong map file extension"), EXIT_FAILURE);
 	env = load_map(argv[1]);
 	if (!env)
 		return (EXIT_FAILURE);

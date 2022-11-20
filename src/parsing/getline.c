@@ -40,6 +40,8 @@ char	*get_next_line(const int fd)
 	char		*ret;
 	char		*next;
 
+	if (fd == -1)
+		return (NULL);
 	if (!*buffer)
 		buffer[read(fd, buffer, BUFFER_SIZE)] = 0;
 	ret = ft_calloc(1, sizeof(char));
