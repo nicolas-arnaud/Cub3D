@@ -39,6 +39,8 @@ int	rgb_to_int(char	**rgb)
 	while (c < 3 && rgb && colors)
 	{
 		colors = next_split(&i, colors, &rgb);
+		if (!colors || !colors[i])
+			continue ;
 		color = ft_atoi(colors[i++]);
 		if (color >= 0 && color < 256)
 			ret |= color << (8 * (2 - c++));

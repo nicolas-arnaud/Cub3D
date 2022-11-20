@@ -5,11 +5,9 @@
 !Makefile
 !README.md
 
-!*.h
 !includes/
-
-!*.a
-!lib/
+!cub3d.h
+!mlx_keycode.h
 
 !*.cub
 !maps/

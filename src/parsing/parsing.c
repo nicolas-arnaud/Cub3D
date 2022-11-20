@@ -24,6 +24,7 @@ int	cleanup_datas(t_env *env)
 		free(env->tex[3].file);
 	if (env->tex[4].file)
 		free(env->tex[4].file);
+	free(env);
 	return (1);
 }
 
