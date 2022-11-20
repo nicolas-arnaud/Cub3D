@@ -114,6 +114,7 @@ int		mouse_move_hook(int x, int y, t_env *env);
 int		mouse_up_hook(int buton, int x, int y, t_env *env);
 int		update_hook(t_env *env);
 void	init_window(t_env *nv);
+int		exit_game(t_env *env);
 int	    init_game(t_env *env);
 
 // Utils

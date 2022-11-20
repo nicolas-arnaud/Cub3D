@@ -92,5 +92,6 @@ int	init_game(t_env *env)
 	mlx_hook(env->win, 2, 1L << 0, key_press_hook, env);
 	mlx_hook(env->win, 3, 1L << 1, key_release_hook, env);
 	mlx_hook(env->win, 6, 0L, mouse_move_hook, env);
+	mlx_hook(env->win, 17, 0L, exit_game, env);
 	return (EXIT_SUCCESS);
 }

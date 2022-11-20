@@ -29,13 +29,16 @@ all:		$(NAME)
 $(VERBOSE).SILENT:
 
 $(LIBFT):
+		echo "Downloading narnaud/libft and making library"
 		bash -c "if [[ ! -d "libft" ]]; then git clone  \
 			https://git.narnaud.net/nicolas-arnaud/Libft.git libft; fi"
 		${MAKE} -C libft/
 		cp libft/libft.a lib/
 		cp libft/libft.h includes/
+		echo ✅
 
 $(MLX):
+		echo "Downloading 42Paris/minilibx and making library"
 		bash -c "if [[ ! -d "mlx" ]]; then git clone  \
 			https://github.com/42Paris/minilibx-linux.git mlx; fi"
 		${MAKE} -C mlx/
@@ -46,6 +49,7 @@ ifeq ($(UNAME_S), Darwin)
 		cp mlx/libmlx.a lib/
 endif
 		cp mlx/mlx.h includes/
+		echo ✅
 
 $(NAME):	$(LIBFT) $(MLX) $(OBJS)
 			echo Making Cub3D...

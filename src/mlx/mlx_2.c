@@ -12,12 +12,18 @@
 
 #include "../../includes/cub3d.h"
 
+int	exit_game(t_env *env)
+{
+	(void)env;
+	exit(EXIT_SUCCESS);
+}
+
 int	key_press_hook(int keycode, t_env *env)
 {
 	if (keycode == KEY_M)
 		env->minimap = !env->minimap;
 	else if (keycode == KEY_ECHAP)
-		exit(EXIT_SUCCESS);
+		exit_game(env);
 	else
 		env->controls[keycode] = 1;
 	return (1);
