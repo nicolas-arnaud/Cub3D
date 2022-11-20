@@ -92,7 +92,7 @@ char	**create_map_array(t_slist	*e_lst, int wide, int deep)
 	{
 		end_line = ft_calloc(wide - ft_strlen(e_lst->content) + 1,
 				sizeof(char));
-		end_line = memset(end_line,
+		end_line = ft_memset(end_line,
 				'0', wide - ft_strlen(e_lst->content) * sizeof(char));
 		ret[i] = ft_strjoin(e_lst->content, end_line);
 		free(end_line);
