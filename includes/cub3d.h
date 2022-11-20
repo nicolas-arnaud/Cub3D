@@ -24,11 +24,7 @@
 # include <string.h>
 # include <math.h>
 # include "libft.h"
-# ifdef __linux__
-#  include "mlx.h"
-# elif __APPLE__
-#  include "mlxmac.h"
-# endif
+# include "mlx.h"
 # include "mlx_keycode.h"
 
 typedef struct s_vector

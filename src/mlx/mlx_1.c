@@ -2,7 +2,8 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   mlx_1.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */ /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
+/*                                                    +:+ +:+         +:+     */
+/*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 14:14:46 by narnaud           #+#    #+#             */
 /*   Updated: 2022/11/14 16:28:51 by narnaud          ###   ########.fr       */
@@ -75,8 +76,8 @@ int	init_game(t_env *env)
 	{
 		env->tex[y].img = mlx_xpm_file_to_image(env->mlx,
 				env->tex[y].file, &env->tex[y].width, &env->tex[y].height);
-        if (env->tex[y].img == NULL)
-            return (printf("Error:\nCan't open a texture\n"), EXIT_FAILURE);
+		if (env->tex[y].img == NULL)
+			return (printf("Error:\nCan't open a texture\n"), EXIT_FAILURE);
 		env->tex[y].buffer = (int *)mlx_get_data_addr(env->tex[y].img, \
 				&env->tex[y].pixel_bits,
 				&env->tex[y].line_bytes,
@@ -91,5 +92,5 @@ int	init_game(t_env *env)
 	mlx_hook(env->win, 2, 1L << 0, key_press_hook, env);
 	mlx_hook(env->win, 3, 1L << 1, key_release_hook, env);
 	mlx_hook(env->win, 6, 0L, mouse_move_hook, env);
-    return (EXIT_SUCCESS);
+	return (EXIT_SUCCESS);
 }

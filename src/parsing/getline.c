@@ -29,39 +29,29 @@ char	*save_buffer(char *buffer, int *i)
 	}
 	part2 = save_buffer(buffer, i);
 	ret = ft_strjoin(part1, part2);
-	free(part1);
-	free(part2);
-	return (ret);
+	return (free(part1), free(part2), ret);
 }
 
-/* TODO:
- * check leaks
- */
-char	*get_next_line(int fd)
+char	*get_next_line(const int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
 	static int	i;
-	ssize_t		read_size;
 	char		*line;
 	char		*ret;
-    char        *next;
+	char		*next;
 
 	if (!*buffer)
-	{
-		read_size = read(fd, buffer, BUFFER_SIZE);
-		buffer[read_size] = 0;
-	}
+		buffer[read(fd, buffer, BUFFER_SIZE)] = 0;
 	ret = ft_calloc(1, sizeof(char));
 	while (buffer[i])
 	{
-        next = save_buffer(buffer, &i);
+		next = save_buffer(buffer, &i);
 		line = ft_strjoin(ret, next);
 		ret = (free(ret), line);
-        free(next);
+		free(next);
 		if (buffer[i - 1] == '\n')
 			break ;
-		read_size = read(fd, buffer, BUFFER_SIZE);
-		buffer[read_size] = 0;
+		buffer[read(fd, buffer, BUFFER_SIZE)] = 0;
 		i = 0;
 	}
 	if (*ret)

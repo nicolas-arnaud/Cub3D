@@ -22,9 +22,9 @@ int	main(int argc, char **argv)
 	if (!env)
 		return (EXIT_FAILURE);
 	init_window(env);
-    if (init_game(env) == EXIT_FAILURE)
-        exit(EXIT_FAILURE);
-    render(env);
+	if (init_game(env) == EXIT_FAILURE)
+		exit(EXIT_FAILURE);
+	render(env);
 	mlx_loop_hook(env->mlx, update_hook, env);
 	mlx_loop(env->mlx);
 	mlx_destroy_image(env->mlx, env->img);

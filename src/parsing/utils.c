@@ -12,6 +12,18 @@
 
 #include "../../includes/cub3d.h"
 
+char	**next_split(int *i, char **colors, char ***rgb)
+{
+	if (!colors[*i])
+	{
+		ft_free_split(colors);
+		if (++(*rgb))
+			colors = ft_split(**rgb, ',');
+		*i = 0;
+	}
+	return (colors);
+}
+
 int	rgb_to_int(char	**rgb)
 {
 	int		ret;
@@ -26,14 +38,7 @@ int	rgb_to_int(char	**rgb)
 	colors = ft_split(*rgb, ',');
 	while (c < 3 && rgb && colors)
 	{
-		if (!colors[i])
-		{
-			i = 0;
-			ft_free_split(colors);
-			if (++rgb)
-				colors = ft_split(*rgb, ',');
-			continue ;
-		}
+		colors = next_split(&i, colors, &rgb);
 		color = ft_atoi(colors[i++]);
 		if (color >= 0 && color < 256)
 			ret |= color << (8 * (2 - c++));

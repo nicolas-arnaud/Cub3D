@@ -1,5 +1,5 @@
 NAME	=	cub3d
-LIBFT	=	libft.a
+LIBFT	=	lib/libft.a
 MLX		=   includes/mlx.h
 
 
@@ -14,12 +14,12 @@ RM		=	rm -rf
 
 UNAME_S	:=	$(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	LFLAGS	= -lXext -lX11 -lm -lz -Llib -lft -lmlx_Linux
+	LFLAGS	= -lXext -lX11 -lm -lz -Llib -lft -lmlx
 endif
 ifeq ($(UNAME_S), Darwin)
-	LFLAGS	= -framework OpenGL -framework AppKit -Llib -lft -lmlx_Mac
+	LFLAGS	= -framework OpenGL -framework AppKit -Llib -lft -lmlx
 endif
-CFLAGS	=	-g -Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
+CFLAGS	=	-Werror -Wall -Wextra -O3 -ffast-math -funsafe-math-optimizations
 	
 %.o:%.c
 		${CC} ${CFLAGS} -c $< -o ${<:.c=.o}
@@ -29,11 +29,22 @@ all:		$(NAME)
 $(VERBOSE).SILENT:
 
 $(LIBFT):
+		bash -c "if [[ ! -d "libft" ]]; then git clone  \
+			https://git.narnaud.net/nicolas-arnaud/Libft.git libft; fi"
 		${MAKE} -C libft/
-		cp libft/libft.a ./lib/
+		cp libft/libft.a lib/
 		cp libft/libft.h includes/
 
 $(MLX):
+		bash -c "if [[ ! -d "mlx" ]]; then git clone  \
+			https://github.com/42Paris/minilibx-linux.git mlx; fi"
+		${MAKE} -C mlx/
+ifeq ($(UNAME_S), Linux)
+		cp mlx/libmlx_Linux.a lib/libmlx.a
+endif
+ifeq ($(UNAME_S), Darwin)
+		cp mlx/libmlx.a lib/
+endif
 		cp mlx/mlx.h includes/
 
 $(NAME):	$(LIBFT) $(MLX) $(OBJS)
@@ -53,8 +64,10 @@ clean:
 
 fclean:		clean	
 		${MAKE} -C libft fclean
-		${RM} libft.a
+		${RM} lib/libft.a
 		${RM} includes/libft.h
+		${RM} lib/libmlx.a
+		${RM} includes/mlx.h
 		echo Cleaning binary...
 		${RM} ${NAME}
 		echo ✅
