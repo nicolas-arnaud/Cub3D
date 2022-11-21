@@ -12,6 +12,11 @@
 !*.cub
 !maps/
 !maps/tests/
+!maps/tests/doubles/
+!maps/tests/invalid_format/
+!maps/tests/invalid_map/
+!maps/tests/invalid_values/
+!maps/tests/missing/
 
 !*.c
 !src/

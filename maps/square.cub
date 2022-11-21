@@ -1,3 +1,4 @@
+
 NO ./textures/redbrick.xpm
 EA ./textures/colorstone.xpm
 SO ./textures/redbrick.xpm
@@ -9,6 +10,9 @@ C 219, 213, 213
 
 1111111
 100N001
-
 1000001
 1111111
+
+
+
+

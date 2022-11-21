@@ -14,6 +14,8 @@
 
 int	cleanup_datas(t_env *env)
 {
+	int	i;
+
 	if (env->tex[0].file)
 		free(env->tex[0].file);
 	if (env->tex[1].file)
@@ -24,6 +26,13 @@ int	cleanup_datas(t_env *env)
 		free(env->tex[3].file);
 	if (env->tex[4].file)
 		free(env->tex[4].file);
+	if (env->map) {
+		i = 0;
+		while (i < env->deep)
+			free(env->map[i++]);
+		free(env->map);
+
+	}
 	free(env);
 	return (1);
 }
