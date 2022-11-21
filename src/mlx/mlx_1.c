@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 14:14:46 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/14 16:28:51 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/21 18:53:39 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	mouse_move_hook(int x, int y, t_env *env)
 	(void)y;
 	dx = WIN_X_SZ / 2 - x;
 	if (dx)
-		env->playerDir = dvec_rot(env->playerDir,
+		env->player_dir = dvec_rot(env->player_dir,
 				(double)(-M_PI * dx / 1800.0), 1);
 	mlx_mouse_move(env->win, WIN_X_SZ / 2, WIN_Y_SZ / 2);
 	return (1);

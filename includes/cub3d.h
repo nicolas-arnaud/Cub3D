@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/14 16:33:15 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/21 18:55:22 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,20 @@ typedef struct s_rectangle
 {
 	t_vec	start;
 	t_vec	size;
-	int 	color;
+	int		color;
 }	t_rect;
 
 typedef struct s_raycast
 {
 	t_dvec	vec;
 	int		*cell;
-	double	sDist[2];
-	double	dDist[2];
+	double	s_dist[2];
+	double	d_dist[2];
 	int		*step;	
 	int		side;
 	int		tex;
 	double	dist;
-	double	wallX;
+	double	wall_x;
 	int		x;
 }	t_rc;
 
@@ -85,15 +85,15 @@ typedef struct s_env
 	t_img	tex[5];
 	int		minimap;
 	int		controls[KEYS_LIMIT];
-	int		mouseX;
-	int		floorColor;
-	int		ceilColor;
+	int		mouse_x;
+	int		floor_color;
+	int		ceil_color;
 	char	**map;
 	int		wide;
 	int		deep;
-	t_dvec	playerPos;
-	t_dvec	playerDir;
-	t_dvec	camPlan;
+	t_dvec	player_pos;
+	t_dvec	player_dir;
+	t_dvec	cam_plan;
 }	t_env;
 
 // Render
@@ -115,7 +115,7 @@ int		mouse_up_hook(int buton, int x, int y, t_env *env);
 int		update_hook(t_env *env);
 void	init_window(t_env *nv);
 int		exit_game(t_env *env);
-int	    init_game(t_env *env);
+int		init_game(t_env *env);
 
 // Utils
 void	vec_set(t_vec *vec, int x, int y);

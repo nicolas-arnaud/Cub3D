@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:47:30 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/25 14:18:26 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/21 18:57:55 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,20 @@ int	update_hook(t_env *env)
 {	
 	t_dvec	d;
 
-	d.x = ((env->controls[KEY_W] - env->controls[KEY_S]) * env->playerDir.x \
-		+ (env->controls[KEY_D] - env->controls[KEY_A]) * env->camPlan.x) \
+	d.x = ((env->controls[KEY_W] - env->controls[KEY_S]) * env->player_dir.x \
+		+ (env->controls[KEY_D] - env->controls[KEY_A]) * env->cam_plan.x) \
 		/ (20 - env->controls[KEY_SHFT] * 10);
-	d.y = ((env->controls[KEY_W] - env->controls[KEY_S]) * env->playerDir.y \
-		+ (env->controls[KEY_D] - env->controls[KEY_A]) * env->camPlan.y) \
+	d.y = ((env->controls[KEY_W] - env->controls[KEY_S]) * env->player_dir.y \
+		+ (env->controls[KEY_D] - env->controls[KEY_A]) * env->cam_plan.y) \
 		/ (20 - env->controls[KEY_SHFT] * 10);
-	if (env->map[(int)env->playerPos.y][(int)(env->playerPos.x + d.x)] != '1')
-		dvec_set(&env->playerPos, env->playerPos.x + d.x, env->playerPos.y);
-	if (env->map[(int)(env->playerPos.y + d.y)][(int)env->playerPos.x] != '1')
-		dvec_set(&env->playerPos, env->playerPos.x, env->playerPos.y + d.y);
-	env->playerDir = dvec_rot(env->playerDir, (double)(env->controls[KEY_RIGHT]
-				- env->controls[KEY_LEFT]) * M_PI / 180, 1);
-	env->camPlan = dvec_rot(env->playerDir, M_PI / 2, 0.66);
+	if (env->map[(int)env->player_pos.y][(int)(env->player_pos.x + d.x)] != '1')
+		dvec_set(&env->player_pos, env->player_pos.x + d.x, env->player_pos.y);
+	if (env->map[(int)(env->player_pos.y + d.y)][(int)env->player_pos.x] != '1')
+		dvec_set(&env->player_pos, env->player_pos.x, env->player_pos.y + d.y);
+	env->player_dir = dvec_rot(env->player_dir,
+			(double)(env->controls[KEY_RIGHT] - env->controls[KEY_LEFT])
+			* M_PI / 180, 1);
+	env->cam_plan = dvec_rot(env->player_dir, M_PI / 2, 0.66);
 	render(env);
 	return (1);
 }

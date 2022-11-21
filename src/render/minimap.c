@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 08:14:08 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/23 16:01:38 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/21 19:01:36 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	render_minimap(t_env *env, t_vec size)
 		pos.y++;
 	}
 	draw_rectangle(env, (t_rect){\
-		(t_vec){env->playerPos.x * delt.x - delt.x / 4.0, \
-		env->playerPos.y * delt.y - delt.y / 4.0}, \
+		(t_vec){env->player_pos.x * delt.x - delt.x / 4.0, \
+		env->player_pos.y * delt.y - delt.y / 4.0}, \
 		(t_vec){delt.x / 2, delt.y / 2}, 0xFF0000}, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 09:30:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/30 16:05:29 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/21 19:05:12 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ int	init_player(t_env *env, int x, int y)
 
 	orientation = env->map[y][x];
 	env->map[y][x] = '0';
-	dvec_set(&env->playerPos, x + 0.5, y + 0.5);
+	dvec_set(&env->player_pos, x + 0.5, y + 0.5);
 	if (orientation == 'N')
-		dvec_set(&env->playerDir, 0, -1);
+		dvec_set(&env->player_dir, 0, -1);
 	else if (orientation == 'S')
-		dvec_set(&env->playerDir, 0, 1);
+		dvec_set(&env->player_dir, 0, 1);
 	else if (orientation == 'E')
-		dvec_set(&env->playerDir, 1, 0);
+		dvec_set(&env->player_dir, 1, 0);
 	else if (orientation == 'W')
-		dvec_set(&env->playerDir, -1, 0);
-	env->camPlan = dvec_rot(env->playerDir, M_PI / 2, 0.66);
+		dvec_set(&env->player_dir, -1, 0);
+	env->cam_plan = dvec_rot(env->player_dir, M_PI / 2, 0.66);
 	return (1);
 }
 

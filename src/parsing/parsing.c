@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/14 11:48:57 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/21 19:00:21 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	cleanup_datas(t_env *env)
 		free(env->tex[3].file);
 	if (env->tex[4].file)
 		free(env->tex[4].file);
-	if (env->map) {
+	if (env->map)
+	{
 		i = 0;
 		while (i < env->deep)
 			free(env->map[i++]);
 		free(env->map);
-
 	}
 	free(env);
 	return (1);
@@ -55,14 +55,14 @@ void	register_settings(int *progress, t_env *env, char *line)
 	else if (!env->tex[4].file && !ft_strncmp(elem[0], "DO", 3))
 		env->tex[4].file = ft_strtrim(elem[1], "\n");
 	else if (!ft_strncmp(elem[0], "F", 2))
-		env->floorColor = rgb_to_int(elem + 1);
+		env->floor_color = rgb_to_int(elem + 1);
 	else if (!ft_strncmp(elem[0], "C", 2))
-		env->ceilColor = rgb_to_int(elem + 1);
+		env->ceil_color = rgb_to_int(elem + 1);
 	else
 		(*progress)--;
 	(*progress)++;
 	ft_free_split(elem);
-	if (env->floorColor == -1 || env->ceilColor == -1)
+	if (env->floor_color == -1 || env->ceil_color == -1)
 		(*progress)--;
 }
 
@@ -99,7 +99,7 @@ int	is_valid_map(t_env *env)
 {
 	if (!find_player(env))
 		printf("Error: There is no player on the map.\n");
-	else if (is_in_open_room(env, env->playerPos.x, env->playerPos.y))
+	else if (is_in_open_room(env, env->player_pos.x, env->player_pos.y))
 		printf("Error: You are using an open map.\n");
 	else
 		return (1);
