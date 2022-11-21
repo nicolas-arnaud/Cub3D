@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/21 19:00:21 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/21 19:43:41 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,9 @@ t_slist	*read_map_line(t_env *env, char *line)
 	ret = malloc(sizeof(t_slist));
 	i = 0;
 	map_y = malloc((ft_strlen(line)) * sizeof(char));
-	while (*line)
+	while (*line && *line != '\n')
 	{
-		if (*line == '\n')
-			break ;
-		else if (!ft_isspace(*line))
+		if (!ft_isspace(*line))
 			map_y[i] = *line;
 		else
 			map_y[i] = '0';
@@ -119,12 +117,12 @@ t_env	*load_map(char *filename)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (*line && *line != '\n' && progress > 6 && progress++)
+		if ((*line == '1' || *line == '\t' || *line == ' ')
+			&& progress > 6 && progress++)
 			ft_slst_add_back(&e_map, read_map_line(env, line));
 		else if (*line != '#')
 			register_settings(&progress, env, line);
-		free(line);
-		line = get_next_line(fd);
+		line = (free(line), get_next_line(fd));
 	}
 	if (progress < 7 && cleanup_datas(env))
 		return (printf("Error\nYour map isn't valid.\n"), NULL);

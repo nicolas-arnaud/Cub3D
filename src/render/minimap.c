@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 08:14:08 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/21 19:01:36 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/21 19:56:47 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ t_rect	get_mm_cell(char type, t_vec pos, t_vec delta)
 	return ((t_rect){vec_mult(pos, delta), delta, color});
 }
 
-void	render_minimap(t_env *env, t_vec size)
+void	render_minimap(t_env *env, t_vec delt)
 {
 	char	**map;
 	t_vec	pos;
-	t_vec	delt;
 
-	vec_set(&delt, size.x / env->wide, size.y / env->deep);
 	pos.y = 0;
 	map = env->map;
 	while (map[pos.y])
