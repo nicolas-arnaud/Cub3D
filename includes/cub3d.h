@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:24:12 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/21 19:41:26 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/21 23:17:41 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	init_ray(t_env *env, t_rc *rc);
 int		ray_hit(t_env *env, t_rc *rc);
 void	draw_rectangle(t_env *env, t_rect rect, int borders);
 t_rect	get_mm_cell(char type, t_vec pos, t_vec delta);
-void	render_minimap(t_env *env, t_vec size);
+void	render_minimap(t_env *env);
 void	render_view(t_env *env);
 void	render(t_env *env);
 
