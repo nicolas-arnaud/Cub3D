@@ -39,16 +39,18 @@ $(LIBFT):
 
 $(MLX):
 		echo "Downloading 42Paris/minilibx and making library"
+ifeq ($(UNAME_S), Linux)
 		bash -c "if [[ ! -d "mlx" ]]; then git clone  \
 			https://github.com/42Paris/minilibx-linux.git mlx; fi"
 		${MAKE} -C mlx/
-ifeq ($(UNAME_S), Linux)
 		cp mlx/libmlx_Linux.a lib/libmlx.a
+		cp mlx/mlx.h includes/
 endif
 ifeq ($(UNAME_S), Darwin)
-		cp mlx/libmlx.a lib/
+		${MAKE} -C mlx_mac/
+		cp mlx_mac/libmlx.a lib/
+		cp mlx_mac/mlx.h includes/
 endif
-		cp mlx/mlx.h includes/
 		echo ✅
 
 $(NAME):	$(LIBFT) $(MLX) $(OBJS)

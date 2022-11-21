@@ -5,6 +5,9 @@
 !Makefile
 !README.md
 
+!mlx_mac/
+!mlx_mac/*
+
 !includes/
 !cub3d.h
 !mlx_keycode.h
