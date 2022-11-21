@@ -14,7 +14,12 @@
 
 int	exit_game(t_env *env)
 {
-	(void)env;
+	int	i;
+
+	i = 0;
+	while (i < 5)
+		mlx_destroy_image(env->mlx, env->tex[i++].img);
+	mlx_destroy_image(env->mlx, env->img);
 	exit(EXIT_SUCCESS);
 }
 

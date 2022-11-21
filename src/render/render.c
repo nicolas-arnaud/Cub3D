@@ -88,7 +88,7 @@ void	render_view(t_env *env)
 
 void	render(t_env *env)
 {
-	bzero(env->buffer, WIN_Y_SZ * WIN_X_SZ * sizeof(int));
+	ft_bzero(env->buffer, WIN_Y_SZ * WIN_X_SZ * sizeof(int));
 	render_view(env);
 	if (env->minimap)
 		render_minimap(env, (t_vec){WIN_X_SZ / 3, WIN_Y_SZ / 3});

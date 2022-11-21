@@ -29,6 +29,5 @@ int	main(int argc, char **argv)
 	render(env);
 	mlx_loop_hook(env->mlx, update_hook, env);
 	mlx_loop(env->mlx);
-	mlx_destroy_image(env->mlx, env->img);
 	return (EXIT_SUCCESS);
 }
