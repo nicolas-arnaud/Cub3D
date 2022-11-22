@@ -97,6 +97,8 @@ t_slist	*read_map_line(t_env *env, char *line)
 
 int	is_valid_map(t_env *env)
 {
+	if (!verify_map(env))
+		return (0);
 	if (!find_player(env))
 		printf("Error\nYou probably somewhere but not on the map.\n");
 	else if (is_in_open_room(env, env->player_pos.x, env->player_pos.y))
@@ -130,7 +132,7 @@ t_env	*load_map(char *filename)
 	env = ft_calloc(1, sizeof(t_env));
 	fd = open(filename, O_RDONLY);
 	line = get_next_line(fd);
-	while (line)
+	while (fd > 0 && line)
 	{
 		if ((*line == '1' || *line == '\t' || *line == ' ')
 			&& progress > 6 && progress++)
@@ -139,7 +141,7 @@ t_env	*load_map(char *filename)
 			register_settings(&progress, env, line);
 		line = (free(line), get_next_line(fd));
 	}
-	if (progress < 7 && cleanup_datas(env))
+	if (!e_map || (progress < 7 && cleanup_datas(env)))
 		return (printf("Error\nYour map isn't valid.\n"), NULL);
 	env->map = create_map_array(e_map, env->wide, env->deep);
 	if (!is_valid_map(env) && cleanup_datas(env))

@@ -135,6 +135,7 @@ t_dvec	dvec_rot(t_dvec vec, double rad, double init_len);
 int		rgb_to_int(char	**rgb);
 char	**create_map_array(t_slist	*e_lst, int wide, int deep);
 int		is_in_open_room(t_env *env, int x, int y);
+int		verify_map(t_env *env);
 int		find_player(t_env *env);
 t_env	*load_map(char *filename);
 char	*get_next_line(int fd);

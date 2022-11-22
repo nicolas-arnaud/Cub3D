@@ -19,18 +19,16 @@ char	*save_buffer(char *buffer, int *i)
 	char	*part2;
 	char	*ret;
 
-	part1 = malloc(4097 * sizeof(char));
+	part1 = ft_calloc(4097, sizeof(char));
 	j = 0;
 	while (j < 4096)
 	{
 		part1[j++] = buffer[*i];
 		if (buffer[*i] == '\0' || buffer[(*i)++] == '\n')
 		{
-			part1[j] = 0;
 			return (part1);
 		}
 	}
-	part1[4096] = 0;
 	part2 = save_buffer(buffer, i);
 	ret = ft_strjoin(part1, part2);
 	free(part1);
@@ -38,31 +36,37 @@ char	*save_buffer(char *buffer, int *i)
 	return (ret);
 }
 
+typedef struct s_gnl
+{
+	char	*line;
+	char	*next;
+	char	*ret;
+}	t_gnl;
+
 char	*get_next_line(const int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
 	static int	i;
-	char		*line;
-	char		*ret;
-	char		*next;
+	t_gnl		gnl;
 
-	if (fd == -1)
-		return (NULL);
-	if (!*buffer)
+	if (!buffer[i])
+	{
+		i = 0;
 		buffer[read(fd, buffer, BUFFER_SIZE)] = 0;
-	ret = ft_calloc(1, sizeof(char));
+	}
+	gnl.ret = ft_calloc(1, sizeof(char));
 	while (buffer[i])
 	{
-		next = save_buffer(buffer, &i);
-		line = ft_strjoin(ret, next);
-		ret = (free(ret), line);
-		free(next);
+		gnl.next = save_buffer(buffer, &i);
+		gnl.line = ft_strjoin(gnl.ret, gnl.next);
+		gnl.ret = (free(gnl.ret), gnl.line);
+		free(gnl.next);
 		if (buffer[i - 1] == '\n')
 			break ;
 		buffer[read(fd, buffer, BUFFER_SIZE)] = 0;
 		i = 0;
 	}
-	if (*ret)
-		return (ret);
-	return (free(ret), NULL);
+	if (*(gnl.ret))
+		return (gnl.ret);
+	return (free(gnl.ret), NULL);
 }

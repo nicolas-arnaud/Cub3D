@@ -59,6 +59,35 @@ int	find_player(t_env *env)
 	return (0);
 }
 
+int	verify_map(t_env *env)
+{
+	int		x;
+	int		y;
+	char	cell;
+	int		spawn;
+
+	spawn = 0;
+	y = 0;
+	while (env->map[y])
+	{
+		x = 0;
+		while (env->map[y][x])
+		{
+			cell = env->map[y][x];
+			if (cell == 'N' || cell == 'S' || cell == 'E' || cell == 'W')
+				spawn++;
+			else if (cell != '0' && cell != '1' && cell != '2'
+				&& !ft_isspace(cell))
+				return ((printf("Error\nInvalid character on the map\n"), 0));
+			x++;
+		}
+		y++;
+	}
+	if (spawn > 1)
+		return ((printf("Error\nToo many spawn on the map\n"), 0));
+	return (1);
+}
+
 /* Check all around the player if he can acces the void around the map.
  * Also check if the map is not to big to avoid so later stack overflow.
  */
@@ -68,9 +97,9 @@ int	is_in_open_room(t_env *env, int x, int y)
 	static int		recurs;
 
 	recurs++;
-	if (recurs > 1000000 - 2 * (env->wide * env->deep))
+	if (recurs > 1000000 - 2 * env->wide * env->deep)
 		return (1);
-	if (x < 0 || x >= env->wide || y < 0 || y >= env->deep)
+	if (x < 0 || x > env->wide || y < 0 || y > env->deep)
 		return (1);
 	if (!checked)
 		checked = ft_calloc(env->deep * env->wide + 1, sizeof(char));
