@@ -30,7 +30,7 @@ char	*save_buffer(char *buffer, int *i)
 			return (part1);
 		}
 	}
-	part1[4097] = 0;
+	part1[4096] = 0;
 	part2 = save_buffer(buffer, i);
 	ret = ft_strjoin(part1, part2);
 	free(part1);

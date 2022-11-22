@@ -35,7 +35,7 @@ int	mouse_move_hook(int x, int y, t_env *env)
 	(void)y;
 	dx = WIN_X_SZ / 2 - x;
 	if (dx)
-		env->playerDir = dvec_rot(env->playerDir,
+		env->player_dir = dvec_rot(env->player_dir,
 				(double)(-M_PI * dx / 1800.0), 1);
 	mlx_mouse_move(env->mlx, env->win, WIN_X_SZ / 2, WIN_Y_SZ / 2);
 	return (1);
