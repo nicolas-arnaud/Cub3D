@@ -1,6 +1,6 @@
 NAME	=	cub3d
 LIBFT	=	lib/libft.a
-MLX		=   includes/mlx.h
+MLX		=   lib/libmlx.a
 
 
 SRCS	=	src/main.c src/vectors.c
@@ -29,6 +29,7 @@ all:		$(NAME)
 $(VERBOSE).SILENT:
 
 $(LIBFT):
+		mkdir -p lib
 		echo "Downloading narnaud/libft and making library"
 		bash -c "if [[ ! -d "libft" ]]; then git clone  \
 			https://git.narnaud.net/nicolas-arnaud/Libft.git libft; fi"

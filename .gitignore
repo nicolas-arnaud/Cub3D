@@ -8,6 +8,8 @@
 !mlx_mac/
 !mlx_mac/*
 
+!lib/
+
 !includes/
 !cub3d.h
 !mlx_keycode.h
