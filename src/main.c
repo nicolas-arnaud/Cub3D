@@ -6,11 +6,19 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 19:22:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/14 16:35:36 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 06:01:26 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+/* Cub3d main:
+ * 
+ * - Verify that map is given and have the right extension and load it.
+ * - If map loading failed, exit. Cleanup is handle by loader.
+ * - Initialize mlx window and game.
+ * - Setup mlx loop hook and start loop.
+ */
 
 int	main(int argc, char **argv)
 {
@@ -26,7 +34,6 @@ int	main(int argc, char **argv)
 	init_window(env);
 	if (init_game(env) == EXIT_FAILURE)
 		exit(EXIT_FAILURE);
-	render(env);
 	mlx_loop_hook(env->mlx, update_hook, env);
 	mlx_loop(env->mlx);
 	return (EXIT_SUCCESS);

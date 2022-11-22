@@ -6,12 +6,15 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 09:30:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/22 05:33:45 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 06:21:24 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub3d.h"
 
+/* Get the initial position and orientation of the player and
+ * save it into env.
+ */
 int	init_player(t_env *env, int x, int y)
 {
 	char	orientation;
@@ -31,6 +34,7 @@ int	init_player(t_env *env, int x, int y)
 	return (1);
 }
 
+/* Find the player into the map */
 int	find_player(t_env *env)
 {
 	char	**map;
@@ -55,6 +59,9 @@ int	find_player(t_env *env)
 	return (0);
 }
 
+/* Check all around the player if he can acces the void around the map.
+ * Also check if the map is not to big to avoid so later stack overflow.
+ */
 int	is_in_open_room(t_env *env, int x, int y)
 {
 	static char		*checked;
@@ -81,6 +88,9 @@ int	is_in_open_room(t_env *env, int x, int y)
 		return (0);
 }
 
+/* Convert map chained list into a string array for
+ * render faster.
+ */
 char	**create_map_array(t_slist	*e_lst, int wide, int deep)
 {
 	char	**ret;

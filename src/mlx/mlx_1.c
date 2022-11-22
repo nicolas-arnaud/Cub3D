@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 14:14:46 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/21 18:53:39 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 06:27:15 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #ifdef __linux__
 
+/* mlx initialization. */
 void	init_window(t_env *env)
 {
 	void	*mlx;
@@ -26,6 +27,7 @@ void	init_window(t_env *env)
 	mlx_mouse_hide(mlx, window);
 }
 
+/* Change the player orientation thanks to the mouse deltas. */
 int	mouse_move_hook(int x, int y, t_env *env)
 {
 	int	dx;
@@ -67,6 +69,13 @@ int	mouse_move_hook(int x, int y, t_env *env)
 }
 #endif
 
+/* The game initialization:
+ *
+ * - Open the textures for walls and doors and create the structures 
+ *   which will handle them.
+ * - Create the render image structure.
+ * - Enable mlx hooks which we will care about.
+ */
 int	init_game(t_env *env)
 {
 	int	y;

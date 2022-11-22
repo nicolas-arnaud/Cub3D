@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 09:27:55 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/21 19:00:59 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 07:06:38 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,17 @@ void	init_ray(t_env *env, t_rc *rc)
 		rc->s_dist[1] = (rc->cell[1] + 1.0 - env->player_pos.y) * rc->d_dist[1];
 }
 
+/* Let the ray go to the next cell he will encounter and check if it is a wall.
+ *
+ * - First check the closer side to look for (x direction or y). That's is
+ *   given by the lower side distance,
+ * - Progress to next closer cell so,
+ * - If the cell is not a floor:
+ *   - if it's a wall, set the texture corresponding and return true,
+ *   - if it's a door, verify that the wall must be draw and set
+ *   	texture and return accordingly.
+ * - else continue.
+ */
 int	ray_hit(t_env *env, t_rc *rc)
 {
 	check_side(rc);

@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 09:33:02 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/22 00:06:15 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 07:13:31 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ void	get_wall(int *startY, int *endY, int height)
 		*endY = WIN_Y_SZ - 1;
 }
 
+/* Draw the wall/door using texture for it.
+ *
+ * First calculate the horizontal coordinate of the wall texture which 
+ * 	was hit and his height.
+ * Reverse coordinate if the raycas was moving with negative direciton.
+ * Init step and screen Y initial coordinate.
+ * For each vertical pixel which must be drawn on screen, 
+ * 	draw the corresponding texture pixel.
+ */
 void	draw_wall(t_env *env, t_rc *rc, int wallHeight, int *wall_lim)
 {
 	int		tex_height;
@@ -45,6 +54,12 @@ void	draw_wall(t_env *env, t_rc *rc, int wallHeight, int *wall_lim)
 	}
 }
 
+/* Draw the vertical thanks to raycast datas.
+ * The wall/door size is the portionaly inverse to the distance to
+ * 	the player he is.
+ * Cap wall drawing to the borders of the window.
+ * Draw the ceil part, the wall and the floor.
+ */
 void	draw_vert(t_env *env, t_rc *rc, int side)
 {
 	int		wall_height;
@@ -61,6 +76,18 @@ void	draw_vert(t_env *env, t_rc *rc, int side)
 		(t_vec){1, WIN_Y_SZ - wall_lim[1]}, env->floor_color}, 0);
 }
 
+/* Calculate player point of view:
+ *
+ * - For each vertical along the window:
+ *   - Calculate X coordinate with center of screen as origin.
+ *   - Initialize raycasting datas:
+ *  	- calculate unit vector for the ray corresponding to this vertical,
+ *  	- set the step vector to 0  an save the x to not reverse calculate it,
+ *  	- finish initialization with initials  deltas and sides distances.
+ *   - Shot the ray until he hit a wall or a door.
+ *   - Check which orentation the hit point have.
+ *   - Draw the vertical
+ */
 void	render_view(t_env *env)
 {
 	t_rc		rc;
@@ -86,6 +113,13 @@ void	render_view(t_env *env)
 	}
 }
 
+/* Generate the render for the actual tick.
+ *
+ * - Erase the previous render.
+ * - Calculate player point of view.
+ * - If minimap enabled, generate it. (minimap.c)
+ * - Put render in window.
+ */
 void	render(t_env *env)
 {
 	ft_bzero(env->buffer, WIN_Y_SZ * WIN_X_SZ * sizeof(int));

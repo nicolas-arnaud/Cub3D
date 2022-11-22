@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/22 05:34:10 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 06:54:43 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	cleanup_datas(t_env *env)
 	return (1);
 }
 
+/* Read a setting line of the map file and add setting to the env.*/
 void	register_settings(int *progress, t_env *env, char *line)
 {
 	char	**elem;
@@ -66,6 +67,7 @@ void	register_settings(int *progress, t_env *env, char *line)
 		(*progress)--;
 }
 
+/* Read a map line of the map file and a return chained list element. */
 t_slist	*read_map_line(t_env *env, char *line)
 {
 	t_slist	*ret;
@@ -103,6 +105,19 @@ int	is_valid_map(t_env *env)
 		return (1);
 	return (0);
 }
+
+/* Map loader:
+ *
+ * - open map file and read it line by line.
+ * - For each line:
+ *   - If line is recognize as a map line and all others settings are known,
+ *   	add line to e_map for later proccess,
+ *   - else if line isn't commented, parse the line for the setting it contain.
+ * - Then if a setting or the map is missing, cleanup and say it,
+ * - else, save the map into env->map as a string array.
+ * - Then, check if the map is valid (not open, not too big, and with spawn)
+ *   and cleanup
+ */
 
 t_env	*load_map(char *filename)
 {

@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 13:47:30 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/21 18:57:55 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 06:23:25 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ int	key_release_hook(int keycode, t_env *env)
 	return (1);
 }
 
+/* The loop hook of the game:
+ *
+ * Each tick, calculate new pos and orientation of the player thanks to the
+ * keys pressed and recalculate the render.
+ */
 int	update_hook(t_env *env)
 {	
 	t_dvec	d;
