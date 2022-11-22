@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 21:23:40 by narnaud           #+#    #+#             */
-/*   Updated: 2022/08/23 16:34:20 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 05:00:06 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,23 @@ char	*save_buffer(char *buffer, int *i)
 	char	*part2;
 	char	*ret;
 
-	part1 = ft_calloc(512, sizeof(char));
+	part1 = malloc(4097 * sizeof(char));
 	j = 0;
-	while (j < 512)
+	while (j < 4096)
 	{
 		part1[j++] = buffer[*i];
 		if (buffer[*i] == '\0' || buffer[(*i)++] == '\n')
+		{
+			part1[j] = 0;
 			return (part1);
+		}
 	}
+	part1[4097] = 0;
 	part2 = save_buffer(buffer, i);
 	ret = ft_strjoin(part1, part2);
-	return (free(part1), free(part2), ret);
+	free(part1);
+	free(part2);
+	return (ret);
 }
 
 char	*get_next_line(const int fd)

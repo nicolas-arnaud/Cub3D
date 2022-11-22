@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/31 09:33:02 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/21 23:17:22 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 00:06:15 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	draw_wall(t_env *env, t_rc *rc, int wallHeight, int *wall_lim)
 	{
 		tex.y = (int)y_out & (tex_height - 1);
 		y_out += step;
-		env->buffer[env->line_bytes * wall_lim[0] + rc->x] \
+		env->buffer[env->line_bytes * wall_lim[0] + rc->x]
 			= env->tex[rc->tex].buffer[tex_height * tex.y + tex.x];
 		wall_lim[0]++;
 	}
@@ -91,8 +91,6 @@ void	render(t_env *env)
 	ft_bzero(env->buffer, WIN_Y_SZ * WIN_X_SZ * sizeof(int));
 	render_view(env);
 	if (env->minimap)
-	{
-		render_minimap(env);
-	}
+		render_minimap(env, measure(env));
 	mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 17:20:29 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/21 19:43:41 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 05:34:10 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ t_slist	*read_map_line(t_env *env, char *line)
 int	is_valid_map(t_env *env)
 {
 	if (!find_player(env))
-		printf("Error: There is no player on the map.\n");
+		printf("Error\nYou probably somewhere but not on the map.\n");
 	else if (is_in_open_room(env, env->player_pos.x, env->player_pos.y))
-		printf("Error: You are using an open map.\n");
+		printf("Error\n The game can't handle infinite maps..\n");
 	else
 		return (1);
 	return (0);

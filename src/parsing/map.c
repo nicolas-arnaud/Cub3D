@@ -6,7 +6,7 @@
 /*   By: narnaud <narnaud@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/23 09:30:50 by narnaud           #+#    #+#             */
-/*   Updated: 2022/11/21 19:05:12 by narnaud          ###   ########.fr       */
+/*   Updated: 2022/11/22 05:33:45 by narnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,12 @@ int	find_player(t_env *env)
 
 int	is_in_open_room(t_env *env, int x, int y)
 {
-	static char	*checked;
+	static char		*checked;
+	static int		recurs;
 
+	recurs++;
+	if (recurs > 1000000 - 2 * (env->wide * env->deep))
+		return (1);
 	if (x < 0 || x >= env->wide || y < 0 || y >= env->deep)
 		return (1);
 	if (!checked)
@@ -69,8 +73,8 @@ int	is_in_open_room(t_env *env, int x, int y)
 	if (env->map[y][x] == '1')
 		return (0);
 	else if (is_in_open_room(env, x + 1, y)
-		|| is_in_open_room(env, x - 1, y)
 		|| is_in_open_room(env, x, y + 1)
+		|| is_in_open_room(env, x - 1, y)
 		|| is_in_open_room(env, x, y - 1))
 		return (1);
 	else
